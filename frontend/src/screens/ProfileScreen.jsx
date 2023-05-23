@@ -50,7 +50,7 @@ const ProfileScreen = () => {
     };
     return (
         <Formcontainer>
-            <h1>Update Profile</h1>
+            <h1 style={{ paddingTop: '80px' }}>Update Profile</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Group className = 'my-2' controlId='name'>
                     <Form.Label>Enter Name</Form.Label>

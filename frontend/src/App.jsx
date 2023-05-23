@@ -7,11 +7,11 @@ import 'react-toastify/dist/ReactToastify.css'
 const App = () => {
   return (
     <>
-    <Header style={{marginBottom :'100px'}}/>
-    <ToastContainer/>
-    <Container className="my-2">
-      <Outlet />
-    </Container>
+     <Header style={{ marginBottom: '20px' }} />
+      <ToastContainer />
+      <Container className="my-2">
+        <Outlet />
+      </Container>
     </>
   )
 }

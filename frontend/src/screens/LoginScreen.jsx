@@ -38,7 +38,7 @@ const LoginScreen = () => {
     };
     return (
         <Formcontainer>
-            <h1>Sign In</h1>
+            <h1 style={{ paddingTop: '100px' }}>Login</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Group className = 'my-2' controlId='email'>
                     <Form.Label>Email Address</Form.Label>

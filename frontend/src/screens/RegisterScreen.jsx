@@ -44,7 +44,7 @@ const RegisterScreen = () => {
     };
     return (
         <Formcontainer>
-            <h1>Sign In</h1>
+            <h1 style={{ paddingTop: '40px' }}>Sign In</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Group className = 'my-2' controlId='name'>
                     <Form.Label>Enter Name</Form.Label>

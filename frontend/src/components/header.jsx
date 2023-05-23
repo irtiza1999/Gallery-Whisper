@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import {useLogoutMutation} from '../slices/userApiSlice';
-import {logout} from '../slices/authSlice';
-import {useNavigate} from 'react-router-dom';
+import { useLogoutMutation } from '../slices/userApiSlice';
+import { logout } from '../slices/authSlice';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,12 +18,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useGetCategoryQuery } from '../slices/productsApiSlice';
-import Loader from './loader';
-
+import Loader from './Loader';
+import CartIcon from './CartIcon';
+import { deepPurple } from '@mui/material/colors';
 
 
 const Header = () => {
-  const {userInfo} = useSelector(state => state.auth);
+  const { userInfo } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
@@ -32,7 +33,7 @@ const Header = () => {
       await logoutApiCall().unwrap();
       dispatch(logout());
       navigate('/');
-    }catch(err){
+    } catch (err) {
       toast.error(err?.data?.message || err?.error);
     }
   };
@@ -56,164 +57,179 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
+
   return (
-    <AppBar position="fixed" style={{background: "black"}} >
-    <Container maxWidth="xl">
-      <Toolbar disableGutters>
-      <LinkContainer to='/'>
-        <Typography
-          variant="h6"
-          noWrap
-          component="a"
-          sx={{
-            mr: 2,
-            display: { xs: 'none', md: 'flex' },
-            fontFamily: 'monospace',
-            fontWeight: 700,
-            letterSpacing: '.3rem',
-            color: 'inherit',
-            textDecoration: 'none',
-          }}
-        >
-          LOGO
-        </Typography>
-        </LinkContainer>
+    <div style={{ marginBottom: '30px' }}>
+      <AppBar position="fixed" style={{ background: 'black' }}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <LinkContainer to="/">
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                sx={{
+                  mr: 2,
+                  display: { xs: 'none', md: 'flex' },
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.3rem',
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+              >
+                LOGO
+              </Typography>
+            </LinkContainer>
 
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
-            color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{
-              display: { xs: 'block', md: 'none' },
-            }}
-          >
-            {isLoading ? (<Loader />) : error ? (<Loader />) : (
-            <>
-            {categories.map((category) => (
-              <>
-              <LinkContainer to={`/${category}`}>
-              <MenuItem key={category} onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">{category.toUpperCase()}</Typography>
-              </MenuItem>
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+                {isLoading ? (
+                  <Loader />
+                ) : error ? (
+                  <Loader />
+                ) : (
+                  <>
+                    {categories.map((category) => (
+                      <LinkContainer to={`/${category}`}>
+                        <MenuItem key={category} onClick={handleCloseNavMenu}>
+                          <Typography textAlign="center">{category.toUpperCase()}</Typography>
+                        </MenuItem>
+                      </LinkContainer>
+                    ))}
+                  </>
+                )}
+              </Menu>
+            </Box>
+            <LinkContainer to="/">
+              <Typography
+                variant="h5"
+                noWrap
+                component="a"
+                href=""
+                sx={{
+                  mr: 2,
+                  display: { xs: 'flex', md: 'none' },
+                  flexGrow: 1,
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.3rem',
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+              >
+                <Typography textAlign="center">LOGO</Typography>
+              </Typography>
+            </LinkContainer>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {isLoading ? (
+                <Loader />
+              ) : error ? (
+                <Loader />
+              ) : (
+                <>
+                  {Array.isArray(categories) &&
+                    categories.map((category) => (
+                      <LinkContainer key={category} to={`/${category}`}>
+                        <Button
+                          key={category}
+                          onClick={handleCloseNavMenu}
+                          sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                          {category.toUpperCase()}
+                        </Button>
+                      </LinkContainer>
+                    ))}
+                </>
+              )}
+            </Box>
+            <div style={{ marginRight: '10px' }}>
+              <LinkContainer to="/cart">
+                <CartIcon itemCount={4} /> 
               </LinkContainer>
-              </>
-            ))}
-            </>
-          )}
-
-          </Menu>
-        </Box>
-        <LinkContainer to='/'>
-        <Typography
-          variant="h5"
-          noWrap
-          component="a"
-          href=""
-          sx={{
-            mr: 2,
-            display: { xs: 'flex', md: 'none' },
-            flexGrow: 1,
-            fontFamily: 'monospace',
-            fontWeight: 700,
-            letterSpacing: '.3rem',
-            color: 'inherit',
-            textDecoration: 'none',
-          }}
-        >
-          LOGO
-        </Typography>
-        </LinkContainer>
-        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-
-        {isLoading ? (<h3>Loading...</h3>) : error ? (<h3>{error}</h3>) : (
-            <>
-            {categories.map((category) => (
+              </div>
+            {userInfo ? (
               <>
-            <LinkContainer to={`/${category}`}>
-              <Button
-              key={category}
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              {category.toUpperCase()}
-            </Button>
-            </LinkContainer>
+                <Box sx={{ flexGrow: 0 }}>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar
+                        alt={userInfo.name}
+                        sx={{ bgcolor: deepPurple[500] }}
+                        src="/static/images/avatar/2.jpg"
+                      />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: '45px' }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <LinkContainer to="/profile">
+                      <MenuItem key={userInfo.name}>
+                        <Typography textAlign="center">{userInfo.name}</Typography>
+                      </MenuItem>
+                    </LinkContainer>
+                    <MenuItem onClick={logoutHandler}>
+                      <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
+                  </Menu>
+                </Box>
               </>
-            ))}
-            </>
-          )}
-
-        </Box>
-        {userInfo ? (
-        <>
-        <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt={userInfo.name} src="/static/images/avatar/2.jpg" />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            sx={{ mt: '45px' }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            <LinkContainer to='/profile'>
-            <MenuItem key={userInfo.name}>
-              <Typography textAlign="center">{userInfo.name}</Typography>
-            </MenuItem>
-            </LinkContainer>
-            <MenuItem onClick={logoutHandler}>
-              <Typography textAlign="center">Logout</Typography>
-            </MenuItem>
-          </Menu>
-        </Box>
-        </>) : (
-        <>
-        <LinkContainer to='/register' className='mx-2'>
-          <Button variant="contained">Register</Button>
-        </LinkContainer>
-        <LinkContainer to='/login'>
-        <Button variant="contained" color="success">
-          Login
-        </Button>
-        </LinkContainer>
-        </>)}
-        
-      </Toolbar>
-    </Container>
-  </AppBar>
+            ) : (
+              <>
+                <LinkContainer to="/register" className="mx-2">
+                  <Button variant="contained">Register</Button>
+                </LinkContainer>
+                <LinkContainer to="/login">
+                  <Button variant="contained" color="success">
+                    Login
+                  </Button>
+                </LinkContainer>
+              </>
+            )}
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </div>
   );
 };
 

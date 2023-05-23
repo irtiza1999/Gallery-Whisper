@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import Button from '@mui/material/Button';
 import './CartButton.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { cartAdd } from '../slices/cartSlice';
 
-const CartButton = () => {
+const CartButton = ({product}) => {
   const [clicked, setClicked] = useState(false);
+  const dispatch = useDispatch();
   const buttonAnimation = useSpring({
     transform: clicked ? 'scale(1.2)' : 'scale(1)',
   });
-
-  const handleButtonClick = () => {
+  const qty = 1;
+  const addToCartHandler = () => {
+    dispatch(cartAdd({ ...product, qty }));
     setClicked(true);
     setTimeout(() => {
       setClicked(false);
@@ -23,7 +26,7 @@ const CartButton = () => {
       color="primary"
       className={`cart-button ${clicked ? 'clicked' : ''}`}
       style={buttonAnimation}
-      onClick={handleButtonClick}
+      onClick={addToCartHandler}
     >
       {clicked ? <ShoppingCartIcon /> : 'Add to Cart'}
     </animated.button>
