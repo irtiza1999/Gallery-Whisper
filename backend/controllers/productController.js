@@ -59,7 +59,6 @@ const createProduct = asyncHandler(async (req, res) => {
         });
         if(newProduct){
             res.status(201).json({
-                _id : product._id,
                 name : product.name,
                 description : product.description,
                 category : product.category,

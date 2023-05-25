@@ -21,7 +21,9 @@ import { useGetCategoryQuery } from '../slices/productsApiSlice';
 import Loader from './Loader';
 import CartIcon from './CartIcon';
 import { deepPurple } from '@mui/material/colors';
-
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import {setCredentials} from '../slices/authSlice';
 
 const Header = () => {
   const { userInfo } = useSelector(state => state.auth);
@@ -57,7 +59,21 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+  const [cartCount, setCartCount] = useState(0);
 
+  useEffect(() => {{
+    setCartCount(cartItems.length);
+  }}, [cartItems]);
+
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     const flag = userInfo.isAdmin
+  //     dispatch(setCredentials({...userInfo.admin = flag}))
+  //   }
+  // }
+  // , [userInfo]);
   return (
     <div style={{ marginBottom: '30px' }}>
       <AppBar position="fixed" style={{ background: 'black' }}>
@@ -171,9 +187,9 @@ const Header = () => {
               )}
             </Box>
             <div style={{ marginRight: '10px' }}>
-              <LinkContainer to="/cart">
-                <CartIcon itemCount={4} /> 
-              </LinkContainer>
+            <Link to="/cart" style={{ color: 'white' }}>
+                <CartIcon itemCount={cartCount} />
+            </Link>
               </div>
             {userInfo ? (
               <>

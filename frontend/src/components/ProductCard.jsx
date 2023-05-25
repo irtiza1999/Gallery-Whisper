@@ -8,6 +8,10 @@ import { useSpring, animated } from 'react-spring';
 import CartButton from './CartButton';
 import { LinkContainer } from 'react-router-bootstrap';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Button } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+
+
 
 const AnimatedCard = animated(Card);
 
@@ -30,9 +34,14 @@ const ProductCard = ({ product }) => {
     setIsFavorite(!isFavorite);
   };
 
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+  const inCart = cartItems.find((item) => item._id === product._id);
+
+  
   return (
     <div>
-      <AnimatedCard style={{ ...animationProps, ...hoverProps }} sx={{ maxWidth: 200 }}>
+      <AnimatedCard style={{ ...animationProps, ...hoverProps , borderRadius: '10px'}} sx={{ maxWidth: 200 }}>
         <Card sx={{ maxWidth: 250 }}>
           <LinkContainer to={`/product/${product._id}`}>
             <CardActionArea>
@@ -63,9 +72,24 @@ const ProductCard = ({ product }) => {
           </LinkContainer>
           <CardActions style={{ justifyContent: 'space-between' }}>
             <LinkContainer to='/cart'>
-            <CartButton product = {product} size="small" color="primary">
-              Add to Cart
-            </CartButton>
+              
+            {product.countInStock > 0 ? (
+                !inCart ? (
+                  <CartButton product={product} size="small" color="primary">
+                    Add to Cart
+                  </CartButton>
+                ) : (
+                  <Button disabled variant="success" size="small" className="cart-button">
+                    Already in Cart
+                  </Button>
+                )
+              ) : (
+                <Button disabled variant="danger" size="small" className="cart-button">
+                  Out of Stock
+                </Button>
+              )}
+
+            
             </LinkContainer>
             <Tooltip title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}>
               <IconButton onClick={handleFavoriteClick}>

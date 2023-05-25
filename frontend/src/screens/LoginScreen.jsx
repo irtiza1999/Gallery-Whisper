@@ -7,6 +7,8 @@ import {useLoginMutation} from '../slices/userApiSlice';
 import { setCredentials } from "../slices/authSlice";
 import {toast} from 'react-toastify'
 import Loader from "../components/Loader";
+import Message from "../components/Message";
+
 
 
 const LoginScreen = () => {
@@ -33,7 +35,7 @@ const LoginScreen = () => {
             dispatch(setCredentials({...res}))
             navigate('/');
         }catch(err){
-            toast.error(err?.data?.message || err?.error);
+            <Message variant='error'>{toast.error(err?.data?.message || err?.error)}</Message>
         }
     };
     return (
