@@ -65,6 +65,11 @@ const ProductCard = ({ product }) => {
   const inCart = cartItems.find((item) => item._id === product._id);
 
   useEffect(() => {
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    if(!userInfo) return setIsFavorite(false);
     if (favProducts) {
       const index = favProducts.findIndex((item) => item._id === product._id);
       if (index !== -1) {
@@ -73,7 +78,7 @@ const ProductCard = ({ product }) => {
         setIsFavorite(false);
       }
     }
-  }, [favProducts, product._id]);
+  }, [favProducts, userInfo]);
 
   return (
     <div style={{ padding: '10px' }}>

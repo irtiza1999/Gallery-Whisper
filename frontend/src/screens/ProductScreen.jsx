@@ -66,8 +66,8 @@ const ProductScreen = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { data: favProducts, FavIsLoading, refetch, favError } = useGetFavoriteQuery();
   useEffect(() => {
-    if (favProducts) {
-      const index = favProducts.findIndex((item) => item._id === data._id);
+    if (favProducts && userInfo && !FavIsLoading && !favError) {
+      const index = favProducts && data ? favProducts.findIndex((item) => item._id === data._id) : -1;
       if (index !== -1) {
         setIsFavorite(true);
       } else {
