@@ -31,8 +31,28 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data,
             })
         }),
+
+        addFavorite: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/favorite`,
+                method: 'PUT',
+                body: data,
+            }),
+        }),
+
+        getFavorite: builder.query({
+            query: () => ({
+                url: `${USERS_URL}/favorite`,
+            }),
+        }),
     })
     
 })
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useUpdateUserMutation } = usersApiSlice;
+export const { useLoginMutation,
+     useLogoutMutation, 
+     useRegisterMutation, 
+     useUpdateUserMutation,
+     useAddFavoriteMutation,
+     useGetFavoriteQuery,
+ } = usersApiSlice;

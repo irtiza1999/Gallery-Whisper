@@ -7,6 +7,7 @@ import connectDB from './config/db.js';
 import userRoutes from './routes/userRoute.js';
 import productRoute from './routes/productRoute.js';
 import orderRoute from './routes/orderRoute.js';
+import reviewRoute from './routes/reviewRoute.js';
 
 const port = process.env.PORT || 5000;
 
@@ -18,6 +19,7 @@ connectDB();
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoute);
 app.use('/api/orders', orderRoute);
+app.use('/api/reviews', reviewRoute);
 app.get('/api/config/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );

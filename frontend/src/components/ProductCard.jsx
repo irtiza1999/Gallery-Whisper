@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,13 +9,18 @@ import CartButton from './CartButton';
 import { LinkContainer } from 'react-router-bootstrap';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Button } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-
-
+import { useSelector } from 'react-redux';
+import { useAddFavoriteMutation, useGetFavoriteQuery } from '../slices/userApiSlice';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { Row, Col } from 'react-bootstrap';
+import { Grid } from '@mui/material';
+import Rating from '@mui/material/Rating';
 
 const AnimatedCard = animated(Card);
 
 const ProductCard = ({ product }) => {
+  const { userInfo } = useSelector(state => state.auth);
   const animationProps = useSpring({
     opacity: 1,
     transform: 'translateY(0)',
@@ -30,18 +35,49 @@ const ProductCard = ({ product }) => {
   });
 
   const [isFavorite, setIsFavorite] = useState(false);
-  const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite);
+
+  const [addToFav, { isLoading }] = useAddFavoriteMutation();
+  const dispatch = useDispatch();
+
+  const { data: favProducts, FavIsLoading, refetch, error } = useGetFavoriteQuery();
+
+  const handleFavoriteClick = async () => {
+    if (!userInfo) {
+      toast.error('Please login to add to favorites');
+      return;
+    }
+    try {
+      const res = await addToFav({ productId: product._id });
+      if (res.data.data.index !== -1) {
+        toast(`${product.name} Removed from Favorites`);
+        refetch();
+      } else {
+        toast(`${product.name} Added to Favorites`);
+        refetch();
+      }
+    } catch (err) {
+      toast.error(err?.response?.data?.message || err?.message || 'Error adding to favorites');
+    }
   };
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
   const inCart = cartItems.find((item) => item._id === product._id);
 
-  
+  useEffect(() => {
+    if (favProducts) {
+      const index = favProducts.findIndex((item) => item._id === product._id);
+      if (index !== -1) {
+        setIsFavorite(true);
+      } else {
+        setIsFavorite(false);
+      }
+    }
+  }, [favProducts, product._id]);
+
   return (
-    <div>
-      <AnimatedCard style={{ ...animationProps, ...hoverProps , borderRadius: '10px'}} sx={{ maxWidth: 200 }}>
+    <div style={{ padding: '10px' }}>
+      <AnimatedCard style={{ ...animationProps, ...hoverProps, borderRadius: '10px' }} sx={{ maxWidth: 200 }}>
         <Card sx={{ maxWidth: 250 }}>
           <LinkContainer to={`/product/${product._id}`}>
             <CardActionArea>
@@ -64,16 +100,22 @@ const ProductCard = ({ product }) => {
                     <span style={{ color: 'red', fontWeight: 'normal' }}>Out of Stock</span>
                   )}
                 </Typography>
+
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                  <Typography variant="body2" color="text.secondary">
+                    <Rating name="half-rating" defaultValue={product.rating} precision={0.5} readOnly />
+                  </Typography>
+                </div>
+                
                 <Typography variant="body2" color="text.secondary">
-                  ${product.price}
+                  <b>${product.price}</b>
                 </Typography>
               </CardContent>
             </CardActionArea>
           </LinkContainer>
           <CardActions style={{ justifyContent: 'space-between' }}>
-            <LinkContainer to='/cart'>
-              
-            {product.countInStock > 0 ? (
+            <LinkContainer to="/cart">
+              {product.countInStock > 0 ? (
                 !inCart ? (
                   <CartButton product={product} size="small" color="primary">
                     Add to Cart
@@ -88,14 +130,14 @@ const ProductCard = ({ product }) => {
                   Out of Stock
                 </Button>
               )}
-
-            
             </LinkContainer>
-            <Tooltip title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}>
-              <IconButton onClick={handleFavoriteClick}>
-                <FavoriteIcon style={{ color: isFavorite ? 'red' : 'inherit' }} />
-              </IconButton>
-            </Tooltip>
+            {!isLoading && !FavIsLoading && (
+              <Tooltip title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}>
+                <IconButton onClick={handleFavoriteClick}>
+                  <FavoriteIcon style={{ color: isFavorite ? 'red' : 'inherit' }} />
+                </IconButton>
+              </Tooltip>
+            )}
           </CardActions>
         </Card>
       </AnimatedCard>

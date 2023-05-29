@@ -25,6 +25,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {setCredentials} from '../slices/authSlice';
 
+
 const Header = () => {
   const { userInfo } = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -67,16 +68,10 @@ const Header = () => {
     setCartCount(cartItems.length);
   }}, [cartItems]);
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     const flag = userInfo.isAdmin
-  //     dispatch(setCredentials({...userInfo.admin = flag}))
-  //   }
-  // }
-  // , [userInfo]);
   return (
     <div style={{ marginBottom: '30px' }}>
       <AppBar position="fixed" style={{ background: 'black' }}>
+        
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <LinkContainer to="/">
@@ -197,7 +192,7 @@ const Header = () => {
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
-                        alt={userInfo.name}
+                        alt={userInfo.name.toUpperCase()}
                         sx={{ bgcolor: deepPurple[500] }}
                         src="/static/images/avatar/2.jpg"
                       />
@@ -219,11 +214,18 @@ const Header = () => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <LinkContainer to="/profile">
-                      <MenuItem key={userInfo.name}>
-                        <Typography textAlign="center">{userInfo.name}</Typography>
+                    <LinkContainer to = {`/favorites/${userInfo._id}`}>
+                      <MenuItem key='fav'>
+                        <Typography textAlign="center">My Favorites</Typography>
                       </MenuItem>
                     </LinkContainer>
+
+                    <LinkContainer to="/profile">
+                      <MenuItem key={userInfo.name}>
+                        <Typography textAlign="center">Update Profile</Typography>
+                      </MenuItem>
+                    </LinkContainer>
+
                     <MenuItem onClick={logoutHandler}>
                       <Typography textAlign="center">Logout</Typography>
                     </MenuItem>

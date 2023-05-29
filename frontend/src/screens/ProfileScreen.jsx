@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import {useUpdateUserMutation} from '../slices/userApiSlice';
 
 
+
 const ProfileScreen = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -63,13 +64,13 @@ const ProfileScreen = () => {
                 </Form.Group>
 
                 <Form.Group className = 'my-2' controlId='password'>
-                    <Form.Label>Enter Password</Form.Label>
-                    <Form.Control type='password' placeholder='Enter Password' value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
+                    <Form.Label>Update Password</Form.Label>
+                    <Form.Control type='password' placeholder='Update Password' value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
                 </Form.Group>
 
                 <Form.Group className = 'my-2' controlId='cPassword'>
-                    <Form.Label>Enter Password</Form.Label>
-                    <Form.Control type='password' placeholder='Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
+                    <Form.Label>Confirm Updated Password</Form.Label>
+                    <Form.Control type='password' placeholder='Confirm Updated Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
                 </Form.Group>
                 {isLoading && <Loader />}
                 <Button type='submit' variant='primary' className='mt-3'>Update Profile</Button>

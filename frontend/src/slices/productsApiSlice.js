@@ -24,9 +24,18 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                 url: `${PRODUCT_URL}/${productId}`,
             })
         }),
+        getProductByFilter: builder.query({
+            query: (filter) => ({
+                url: `${PRODUCT_URL}/filter/${filter}`,
+            }),
+        }),
+        
     })
     
 })
 
-export const { useGetAllProductQuery, useGetProductByIdQuery, useGetCategoryQuery, useGetCategoryProductsQuery } = productsApiSlice;
+export const { useGetAllProductQuery, useGetProductByIdQuery, 
+    useGetCategoryQuery, useGetCategoryProductsQuery, 
+    useGetProductByFilterQuery,
+ } = productsApiSlice;
 export default productsApiSlice ;

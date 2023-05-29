@@ -186,7 +186,7 @@ const OrderScreen = () => {
               </ListGroup.Item>
               {!order.isPaid && (
                 <ListGroup.Item>
-                  {loadingPay && <Loader />}
+                  {loadingPayPal || isLoading && <Loader />}
 
                   {isLoading ? (
                     <Loader />

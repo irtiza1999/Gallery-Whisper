@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
+import Review from '../models/reviewModel.js';
 
 // get all product public
 const getProduct = asyncHandler(async (req, res) => {
@@ -115,7 +116,31 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 });
 
-
+const getProductsByFilter = asyncHandler(async (req, res) => {
+    const filter = req.params.filter;
+    if (filter === 'pLow'){
+        const products = await Product.find({}).sort({ price: 1 });
+        res.status(200).json(products);
+    }else if (filter === 'pHigh'){
+        const products = await Product.find({}).sort({ price: -1 });
+        res.status(200).json(products);}
+    else if (filter === 'alphaA'){
+        const products = await Product.find({}).sort({ name: 1 });
+        res.status(200).json(products);}
+    else if (filter === 'alphaZ'){
+        const products = await Product.find({}).sort({ name: -1 });
+        res.status(200).json(products);}
+    else if (filter === 'ratingHigh'){
+        const products = await Product.find({}).sort({ rating: -1 });
+        res.status(200).json(products);}
+    else if (filter === 'ratingLow'){
+        const products = await Product.find({}).sort({ rating: 1 });
+        res.status(200).json(products);}
+    else{
+        res.status(404);
+        throw new Error('Invalid filter');
+    }
+  });
 
 
 export {
@@ -125,5 +150,6 @@ export {
     updateProduct,
     deleteProduct,
     getUniqueCategories,
-    getCategoryProducts
+    getCategoryProducts,
+    getProductsByFilter,
 };

@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
+import Product from '../models/productModel.js';
 import generateToken from '../utils/generateToken.js';
 
 // Post public
@@ -14,6 +15,7 @@ const authUser = asyncHandler(async (req, res) => {
             name : user.name,
             email : user.email,
             admin : user.isAdmin,
+            fav : user.favoriteProducts,
         });
     }else{
         res.status(401);
@@ -43,6 +45,7 @@ const register = asyncHandler(async (req, res) => {
             name : user.name,
             email : user.email,
             admin : user.isAdmin,
+            fav : user.favoriteProducts
         });
     }else{
         res.status(400);
@@ -90,10 +93,52 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     }
 });
 
+const addToFavorite = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const productId = req.body.productId;
+    const user = await User.findById(userId);
+  
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ success: false, error: "Product not found" });
+    }
+  
+    const favoriteProducts = user.favoriteProducts;
+  
+    const index = favoriteProducts.indexOf(productId);
+  
+    if (index === -1) {
+      favoriteProducts.push(productId);
+    } else {
+      favoriteProducts.splice(index, 1);
+    }
+    user.favoriteProducts = favoriteProducts;
+    const updatedUser = await user.save();
+  
+    res.status(200).json({ success: true, data: { updatedUser, index } });
+  });
+
+  const getFavoriteProducts = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const user = await User.findById(userId).populate('favoriteProducts');
+  if (!user) {
+    return res.status(404).json({ success: false, error: "User not found" });
+  }
+  const favoriteProducts = user.favoriteProducts;
+  res.status(200).json(favoriteProducts);
+});
+
+  
+
 export {
     authUser,
     register,
     logout,
     getUserProfile,
-    updateUserProfile
+    updateUserProfile,
+    addToFavorite,
+    getFavoriteProducts
 };

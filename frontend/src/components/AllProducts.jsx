@@ -3,16 +3,59 @@ import { useGetAllProductQuery } from '../slices/productsApiSlice';
 import { Row, Col } from 'react-bootstrap';
 import Loader from './Loader';
 import ProductCard from './ProductCard';
-import Grid from '@material-ui/core/Grid';
-
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import {useNavigate}  from 'react-router-dom';
 
 const AllProducts = () => {
-  const { data, isLoading, error } = useGetAllProductQuery();
+  const { data, isLoading, refetch, error } = useGetAllProductQuery();
+  useEffect(() => {
+    refetch();
+  }, []);
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    const filter = event.target.value;
+    navigate(`/filter/${filter}`);
+  };
 
 
   return (
     <div>
-  <h2 style={{ padding: '10px', textAlign: 'center' }}>Latest Products</h2>
+      <Col style={{ textAlign: 'center' }}>
+          <h5 style={{ marginBottom: '10px' }}>LATEST PRODUCTS</h5>
+      </Col>
+      <Grid container sx={{ maxWidth: 50 }} justifyContent="flex-start">
+        <Row style={{ alignItems: 'center' }}>
+          <Col>
+            <FormControl style={{ minWidth: '150px' }}>
+              <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Filter"
+                onChange={handleChange}
+                variant="outlined"
+                style={{ width: '100%' }}
+              >
+                <MenuItem value={'pLow'}>Price Low to High</MenuItem>
+                <MenuItem value={'pHigh'}>Price High to Low</MenuItem>
+                <MenuItem value={'alphaA'}>Name (A-Z)</MenuItem>
+                <MenuItem value={'alphaZ'}>Name (Z-A)</MenuItem>
+                <MenuItem value={'ratingHigh'}>Rating (Highest)</MenuItem>
+                <MenuItem value={'ratingLow'}>Rating (Lowest)</MenuItem>
+              </Select>
+            </FormControl>
+          </Col>
+        </Row>
+      </Grid>
+
+
+
   {isLoading ? (
     <Loader />
   ) : error ? (
@@ -23,7 +66,7 @@ const AllProducts = () => {
         container
         spacing={3}
         justifyContent="flex-start"
-        style={{ padding: '10px', textAlign: 'center', marginTop: '50px', marginBottom: '80px' }}
+        style={{ padding: '10px', textAlign: 'center', marginBottom: '80px' }}
       >
         {Array.isArray(data) &&
           data.map((product) => (
