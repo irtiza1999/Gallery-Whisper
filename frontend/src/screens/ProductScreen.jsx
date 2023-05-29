@@ -50,21 +50,21 @@ const ProductScreen = () => {
   }, [cart.cartItems]);
 
 
-
   const [createReview, {isLoading: reviewSubmitLoading }] = useCreateReviewMutation();
   const {data: reviewData, isLoading: reviewSuccess, refetch: refetchReviews} = useGetReviewQuery(productId);
-  const [flag, setFlag] = useState(false);
+  const [hasReviewed, setHasReviewed] = useState(false);
 
-
-  useEffect(() => {
-    if (userInfo && reviewData && reviewData.some((review) => review.user === userInfo._id)) {
-      refetchReviews();
-      setFlag(true);
-    }
-  }, [reviewData, userInfo, data]);
 
   const [isFavorite, setIsFavorite] = useState(false);
   const { data: favProducts, FavIsLoading, refetch, favError } = useGetFavoriteQuery();
+
+  useEffect(() => {
+    if (userInfo && reviewData && reviewData.some((review) => review.user._id === userInfo._id)) {
+      setHasReviewed(true);
+    }
+  }, [userInfo, reviewData]);
+  
+
   useEffect(() => {
     if (favProducts && userInfo && !FavIsLoading && !favError) {
       const index = favProducts && data ? favProducts.findIndex((item) => item._id === data._id) : -1;
@@ -83,9 +83,8 @@ const ProductScreen = () => {
     try {
       const res = await createReview({ rating, comment, productId }).unwrap();
       if (res) {
-        console.log(res);
         if (res.data.flag) {
-          setFlag(true);
+          setHasReviewed(true);
           toast.error('You have already reviewed the product');
           refetchReviews();
           refetchProduct();
@@ -93,7 +92,7 @@ const ProductScreen = () => {
           toast.success('Review added successfully');
           setRating(0);
           setComment('');
-          setFlag(true);
+          setHasReviewed(true);
           refetchReviews();
         }
       } else {
@@ -294,7 +293,7 @@ const ProductScreen = () => {
             </Typography>
             <Box paddingTop="0px">
             {reviewSubmitLoading && <Loader />}
-            {flag ?(
+            {hasReviewed ?(
                 <Message variant="success">You Have Reviewed The Product</Message>
             ):(
               <>
@@ -306,7 +305,7 @@ const ProductScreen = () => {
                    <Rating name="simple-controlled" value={rating} precision={0.5}  
                     onChange={(event, newValue) => {
                       setRating(newValue);
-                    }}/>
+                    }} disabled={hasReviewed}/>
                 </Form.Group>
                 <Form.Group controlId="comment">
                   <Form.Label>Comment</Form.Label>
