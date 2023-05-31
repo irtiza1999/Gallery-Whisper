@@ -273,6 +273,9 @@ setInterval(() => {
             </Typography>
           </Grid>
           {reviewSuccess && <Loader />}
+          {reviewData && reviewData.length === 0 && (
+            <Message variant="info"><b style={{textAlign: 'center'}}>No reviews</b></Message>
+          )}
           {!reviewSuccess && reviewData && reviewData.map((review) => (
             <Grid item key={review._id} style={{ border: '1px solid #ccc', 
             borderRadius: '8px', padding: '10px', marginBottom : '10px' }}>
