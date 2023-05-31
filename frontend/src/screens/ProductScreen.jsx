@@ -109,6 +109,34 @@ const ProductScreen = () => {
       refetchProduct();
     }
   };
+
+
+function calculateTimeAgo(createdAt) {
+  const commentDate = new Date(createdAt);
+  const currentDate = new Date();
+  const timeDifference = currentDate.getTime() - commentDate.getTime();
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) {
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  } else if (hours > 0) {
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  } else if (minutes > 0) {
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+  } else {
+    return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
+  }
+}
+setInterval(() => {
+  const createdAt = reviewData.createdAt;
+  const timeAgo = calculateTimeAgo(createdAt);
+  console.log(timeAgo);
+}, 10000);
+
+  
   return (
     <div>
       
@@ -272,72 +300,81 @@ const ProductScreen = () => {
                   <Typography variant="body1">{review.user.name.toUpperCase()}</Typography>
                 </Col>
               </Row>
-              <Row>
-                <Col sm={2}>
-                  <Typography variant="body1">On: </Typography>
-                </Col>
-                <Col>
-                  <Typography variant="body1">{review.createdAt.substring(0, 10)}</Typography>
-                </Col>
-              </Row>
+                        <Row>
+            <Col sm={2}>
+              <Typography variant="body1">On:</Typography>
+            </Col>
+            <Col>
+              <Typography variant="body1">{calculateTimeAgo(review.createdAt)}</Typography>
+            </Col>
+          </Row>
             </Grid>
         ))}
 
         </Paper>
       </Grid>
-      <Grid item sm={6}>
-        <Paper style={{ height: '100%', padding: '20px' }}>
-          <Grid item style={{ paddingBottom: '10px' }}>
-            <Typography variant="h5">
-              <h4 style={{textAlign :'center'}}>Write a Customer Review</h4>
-            </Typography>
-            <Typography variant="body1">
-              <h6 style={{textAlign :'center'}}>Share your thoughts with other customers</h6>
-            </Typography>
-            <Box paddingTop="0px">
-            {reviewSubmitLoading && <Loader />}
-            {hasReviewed ?(
-                <Message variant="success">You Have Reviewed The Product</Message>
-            ):(
-              <>
-                {!reviewSubmitLoading && userInfo ? (
-              <>
-              <Form onSubmit={submitHandler}>
-                <Form.Group controlId="rating">
-                  <Form.Label>Rating</Form.Label>
-                   <Rating name="simple-controlled" value={rating} precision={0.5}  
-                    onChange={(event, newValue) => {
-                      setRating(newValue);
-                    }} disabled={hasReviewed}/>
-                </Form.Group>
-                <Form.Group controlId="comment">
-                  <Form.Label>Comment</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    row="3"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
-                <Button type="submit" style={{backgroundColor : '#4834d4', 
-                color:'white', marginTop : '10px'}}>Submit</Button>
-              </Form>
-              </>
-            ) : (
-        <Message variant='info'>
-        <div>
-            <p>Please <LinkContainer to='/login'>
-                <Button>
-                  Login
-                </Button>
-            </LinkContainer> to submit a review</p>
-        </div>
-        </Message>
-            )}
-              </>
-            ) }
-            </Box>
-            </Grid>
+  <Grid item sm={6}>
+  <Paper style={{ height: '100%', padding: '20px', marginLeft:'10px' }}>
+    <Grid item style={{ paddingBottom: '10px' }}>
+      <Typography variant="h5" align="center">
+        Write a Customer Review
+      </Typography>
+      <Typography variant="body1" align="center">
+        Share your thoughts with other customers
+      </Typography>
+      <Box>
+        {reviewSubmitLoading && <Loader />}
+        {hasReviewed ? (
+          <Message variant="success">You have reviewed the product</Message>
+        ) : userInfo ? (
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="rating">
+              <Form.Label>Rating</Form.Label>
+              <Rating
+                name="simple-controlled"
+                value={rating}
+                precision={0.5}
+                onChange={(event, newValue) => {
+                  setRating(newValue);
+                }}
+                disabled={hasReviewed}
+              />
+            </Form.Group>
+            <Form.Group controlId="comment">
+              <Form.Label>Comment</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </Form.Group>
+            <Button
+              type="submit"
+              style={{
+                backgroundColor: '#4834d4',
+                color: 'white',
+                marginTop: '10px',
+              }}
+            >
+              Submit
+            </Button>
+          </Form>
+        ) : (
+          <Message variant="info">
+            <div>
+              <p>
+                Please{' '}
+                <LinkContainer to="/login">
+                  <Button>Login</Button>
+                </LinkContainer>{' '}
+                to submit a review
+              </p>
+            </div>
+          </Message>
+        )}
+      </Box>
+    </Grid>
         </Paper>
         </Grid>
     </Grid>

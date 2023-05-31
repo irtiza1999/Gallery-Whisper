@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 body {
-    background: rgb(245, 202, 221);
-    background: linear-gradient(90deg, rgba(245, 202, 221, 1) 16%, rgba(148, 187, 233, 1) 100%);
-    /* Add other global styles for the body if needed */
+  background: rgb(226,245,202);
+  background: linear-gradient(90deg, rgba(226,245,202,0.8561799719887955) 24%, rgba(148,206,233,0.8981967787114846) 97%);
   }
   
