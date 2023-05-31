@@ -34,6 +34,7 @@ const FilterScreen = () => {
           <Col style={{ textAlign: 'center' }}>
             <h5 style={{ marginBottom: '10px' }}>
               FILTERED PRODUCTS
+              {fil === 'stock' && ' (In Stock)'}
               {fil === 'pLow' && ' (Price Low to High)'}
               {fil === 'pHigh' && ' (Price High to Low)'}
               {fil === 'alphaA' && ' (Name A-Z)'}
@@ -55,6 +56,7 @@ const FilterScreen = () => {
                 variant="outlined"
                 style={{ width: '100%' }}
               >
+                <MenuItem value={'stock'}>In Stock</MenuItem>
                 <MenuItem value={'pLow'}>Price Low to High</MenuItem>
                 <MenuItem value={'pHigh'}>Price High to Low</MenuItem>
                 <MenuItem value={'alphaA'}>Name (A-Z)</MenuItem>

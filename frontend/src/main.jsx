@@ -11,6 +11,7 @@ import LoginScreen from './screens/LoginScreen.jsx'
 import RegisterScreen from './screens/RegisterScreen.jsx'
 import ProfileScreen from './screens/ProfileScreen.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
+import AdminRoute from './components/AdminRoute.jsx'
 import ProductScreen from './screens/ProductScreen.jsx'
 import CategoryScreen from './screens/CategoryScreen.jsx'
 import CartScreen from './screens/CartScreen.jsx'
@@ -21,6 +22,7 @@ import OrderScreen from './screens/OrderScreen.jsx'
 import FilterScreen from './screens/FilterScreen.jsx'
 import FavoritesScreen from './screens/FavoritesScreen.jsx'
 import { ThemeProvider } from "@material-tailwind/react";
+import SearchScreen from './screens/SearchScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +33,7 @@ const router = createBrowserRouter(
       <Route path='/cart' element={<CartScreen />} />
       <Route path='/product/:id' element={<ProductScreen />} />
       <Route path='/:category' element={<CategoryScreen />} />
+      <Route path='/search/:keyWord' element={<SearchScreen />} />
       <Route path='/filter/:filter' element={<FilterScreen />} />
       <Route path='' element={<PrivateRoute/>}> <Route path='/profile' element={<ProfileScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/favorites/:id' element={<FavoritesScreen />} /> </Route>
@@ -38,9 +41,8 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute/>}> <Route path='/payment' element={<PaymentScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/placeorder' element={<PlaceOrderScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/order/:id' element={<OrderScreen />} /> </Route>
-    </Route> 
+    </Route>
   ))
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <React.StrictMode>

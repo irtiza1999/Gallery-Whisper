@@ -29,13 +29,18 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                 url: `${PRODUCT_URL}/filter/${filter}`,
             }),
         }),
-        
+
+        getProductBySearch: builder.query({
+            query: (search) => ({
+                url: `${PRODUCT_URL}/search/${search}`,
+            }),
+        }),
     })
     
 })
 
 export const { useGetAllProductQuery, useGetProductByIdQuery, 
     useGetCategoryQuery, useGetCategoryProductsQuery, 
-    useGetProductByFilterQuery,
+    useGetProductByFilterQuery, useGetProductBySearchQuery,
  } = productsApiSlice;
 export default productsApiSlice ;

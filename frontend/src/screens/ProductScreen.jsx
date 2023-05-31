@@ -217,7 +217,9 @@ const ProductScreen = () => {
 
                   <Grid item>
                     <Col>
-                      <h6>Total: ${(quan * data.price).toFixed(2)}</h6>
+                    {data.countInStock > 0 && (
+                        <h6>Total: ${(quan * data.price).toFixed(2)}</h6>
+                    )}
                     </Col>
                   </Grid>
 

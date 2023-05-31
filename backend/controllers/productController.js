@@ -136,12 +136,32 @@ const getProductsByFilter = asyncHandler(async (req, res) => {
     else if (filter === 'ratingLow'){
         const products = await Product.find({}).sort({ rating: 1 });
         res.status(200).json(products);}
+    else if (filter === 'stock') {
+        const products = await Product.find({ countInStock: { $gt: 0 } }).sort({ countInStock: -1 });
+        res.status(200).json(products);
+        }
     else{
         res.status(404);
         throw new Error('Invalid filter');
     }
   });
 
+const getProductsBySearch = asyncHandler(async (req, res) => {
+    const search = req.params.search;
+    const products = await Product.find({
+        $or: [
+          { name: { $regex: search, $options: 'i' } },
+          { category: { $regex: search, $options: 'i' } },
+          { description: { $regex: search, $options: 'i' } },
+        ]
+      });
+    if (products.length === 0) {
+        res.status(404);
+        throw new Error('No products found');
+    } else {
+        res.status(200).json(products);
+    }
+    });
 
 export {
     getProduct,
@@ -152,4 +172,5 @@ export {
     getUniqueCategories,
     getCategoryProducts,
     getProductsByFilter,
+    getProductsBySearch
 };

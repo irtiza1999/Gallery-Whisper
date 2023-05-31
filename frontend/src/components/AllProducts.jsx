@@ -42,6 +42,7 @@ const AllProducts = () => {
                 variant="outlined"
                 style={{ width: '100%' }}
               >
+                <MenuItem value={'stock'}>In Stock</MenuItem>
                 <MenuItem value={'pLow'}>Price Low to High</MenuItem>
                 <MenuItem value={'pHigh'}>Price High to Low</MenuItem>
                 <MenuItem value={'alphaA'}>Name (A-Z)</MenuItem>

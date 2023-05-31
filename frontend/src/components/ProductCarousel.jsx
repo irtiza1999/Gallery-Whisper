@@ -7,8 +7,9 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useEffect } from 'react';
 
 function ProductCarousel() {
-  const { data: products, isLoading, error } = useGetProductByFilterQuery('ratingHigh');
+  const { data: products, isLoading, error, refetch } = useGetProductByFilterQuery('ratingHigh');
   useEffect(() => {
+    refetch();
   }, [products]);
   if (isLoading) {
     return <Loader />;
@@ -45,6 +46,9 @@ function ProductCarousel() {
                   textAlign: 'center',
                 }}
               >
+                <div>
+                  <b><p style={{ color: '#777', fontSize: '20px' }}>Top Rated Products</p></b>
+                </div>
                 <img
                   className="d-block w-100"
                   src={product.image}

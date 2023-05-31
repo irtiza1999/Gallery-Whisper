@@ -23,10 +23,54 @@ import CartIcon from './CartIcon';
 import { deepPurple } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import {setCredentials} from '../slices/authSlice';
+import SearchIcon from '@mui/icons-material/Search';
+import { styled, alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+import { set } from 'mongoose';
 
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    },
+  },
+}));
 
 const Header = () => {
+  const [search, setSearch] = useState('');
   const { userInfo } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,6 +111,18 @@ const Header = () => {
   useEffect(() => {{
     setCartCount(cartItems.length);
   }}, [cartItems]);
+
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if(!search) return toast.error('Please enter a search term')
+    navigate(`/search/${search}`);
+    setSearch('');
+  };
+
+  useEffect(() => {
+    setSearch('');
+  }, []);
 
   return (
     <div style={{ marginBottom: '30px' }}>
@@ -181,6 +237,21 @@ const Header = () => {
                 </>
               )}
             </Box>
+            <div style={{ marginRight: '10px' }}>
+            <form onSubmit={handleSearch}>
+            <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+              value = {search ? search : ''}
+              onChange = {(e) => setSearch(e.target.value)}
+            />
+          </Search>
+          </form>
+          </div>
             <div style={{ marginRight: '10px' }}>
             <Link to="/cart" style={{ color: 'white' }}>
                 <CartIcon itemCount={cartCount} />
