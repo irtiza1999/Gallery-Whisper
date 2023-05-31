@@ -20,6 +20,7 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen.jsx'
 import OrderScreen from './screens/OrderScreen.jsx'
 import FilterScreen from './screens/FilterScreen.jsx'
 import FavoritesScreen from './screens/FavoritesScreen.jsx'
+import { ThemeProvider } from "@material-tailwind/react";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,7 +44,9 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <React.StrictMode>
+      <ThemeProvider>
       <RouterProvider router={router}/>
+      </ThemeProvider>
     </React.StrictMode>
   </Provider>
 )

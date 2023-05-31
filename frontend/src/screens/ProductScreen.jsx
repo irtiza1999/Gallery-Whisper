@@ -16,7 +16,7 @@ import Message from '../components/Message';
 import Footer from '../components/Footer';
 import { useGetFavoriteQuery } from '../slices/userApiSlice';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
+ 
 
 const ProductScreen = () => {
   const [rating, setRating] = useState(0);
@@ -111,6 +111,7 @@ const ProductScreen = () => {
   };
   return (
     <div>
+      
     <Box paddingTop="100px">
       {isLoading ? (
         <Loader />

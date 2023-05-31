@@ -5,6 +5,8 @@ import {ToastContainer} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import ErrorBoundary from "./components/ErrorBoundary"
 
+
+
 const App = () => {
   return (
     <>
