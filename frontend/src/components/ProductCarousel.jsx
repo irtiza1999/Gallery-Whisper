@@ -4,10 +4,12 @@ import Message from './Message';
 import Loader from './Loader';
 import Rating from '@mui/material/Rating';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useEffect } from 'react';
 
 function ProductCarousel() {
   const { data: products, isLoading, error } = useGetProductByFilterQuery('ratingHigh');
-
+  useEffect(() => {
+  }, [products]);
   if (isLoading) {
     return <Loader />;
   }

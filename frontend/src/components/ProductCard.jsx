@@ -82,21 +82,23 @@ const ProductCard = ({ product }) => {
 
   return (
     <div style={{ padding: '10px' }}>
-      <AnimatedCard style={{ ...animationProps, ...hoverProps, borderRadius: '10px' }} sx={{ maxWidth: 200 }}>
-        <Card sx={{ maxWidth: 250 }}>
+      <AnimatedCard style={{ ...animationProps, ...hoverProps, borderRadius: '10px' }}>
+        <Card>
           <LinkContainer to={`/product/${product._id}`}>
             <CardActionArea>
+              <div>
               <CardMedia
                 component="img"
-                height="200"
-                width="100%"
-                objectFit="cover"
                 image={product.image}
                 alt={product.name}
+                style={{width:'100%',height: '15vw',
+                objectFit: 'cover'}}
+                position="top"
               />
+              </div>
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {product.name}
+                <Typography gutterBottom variant="h6" component="div">
+                    {product.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {product.countInStock > 0 ? (
