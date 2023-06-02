@@ -131,6 +131,47 @@ const addToFavorite = asyncHandler(async (req, res) => {
   res.status(200).json(favoriteProducts);
 });
 
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find({});
+    res.status(200).json(users);
+});
+
+const makeAdmin = asyncHandler(async (req, res) => {
+    const userId = req.body.userId;
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(404);
+      throw new Error('User not found');
+    }
+    user.isAdmin = true;
+    const updatedUser = await user.save();
+  
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  });
+  
+  const removeFromAdmin = asyncHandler(async (req, res) => {
+    const userId = req.body.userId;
+    const user = await User.findById(userId);
+    if (!user) {
+        res.status(404);
+        throw new Error('User not found');
+      }
+      user.isAdmin = false;
+      const updatedUser = await user.save();
+    
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      });
+    });
+
   
 
 export {
@@ -140,5 +181,8 @@ export {
     getUserProfile,
     updateUserProfile,
     addToFavorite,
-    getFavoriteProducts
+    getFavoriteProducts,
+    getAllUsers,
+    makeAdmin,
+    removeFromAdmin
 };

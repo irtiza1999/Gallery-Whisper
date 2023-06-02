@@ -45,6 +45,28 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 url: `${USERS_URL}/favorite`,
             }),
         }),
+
+        getAllUsers: builder.query({
+            query: () => ({
+                url: `${USERS_URL}/admin/users`,
+            }),
+        }),
+
+        makeAdmin: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/admin/makeadmin`,
+                method: 'PUT',
+                body: data,
+            }),
+        }),
+
+        removeAdmin: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/admin/removeadmin`,
+                method: 'PUT',
+                body: data,
+            }),
+        }),
     })
     
 })
@@ -55,4 +77,7 @@ export const { useLoginMutation,
      useUpdateUserMutation,
      useAddFavoriteMutation,
      useGetFavoriteQuery,
+     useGetAllUsersQuery,
+     useMakeAdminMutation,
+     useRemoveAdminMutation,
  } = usersApiSlice;

@@ -6,10 +6,11 @@ import Message from '../../components/Message.jsx';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Button } from 'react-bootstrap';
 import { useMarkAsDeliveredMutation } from '../../slices/ordersApiSlice.js';
+import AdminPanelScreen from './AdminPanelScreen.jsx';
+import Grid from '@mui/material/Grid';
 
 const AllOrderScreen = () => {
   const { data: orders, refetch, isLoading, error } = useGetAllOrdersQuery();
-  const [orderId, setOrderId] = useState('');
 
   useEffect(() => {
     refetch();
@@ -23,7 +24,11 @@ const AllOrderScreen = () => {
   };
 
   return (
-    <div style={{ paddingTop: '40px' }}>
+    <Grid container spacing={2}>
+       <Grid item xs={2}>
+        <AdminPanelScreen />
+      </Grid>
+      <Grid item xs={10}>
       <Typography variant="h3">All Orders</Typography>
       {isLoading ? (
         <Loader />
@@ -117,8 +122,8 @@ const AllOrderScreen = () => {
           </Table>
         </Paper>
       )}
-    </div>
+      </Grid>
+    </Grid>
   );
 };
-
 export default AllOrderScreen;

@@ -27,6 +27,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import { set } from 'mongoose';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -226,6 +227,7 @@ const Header = () => {
                     categories.map((category) => (
                       <LinkContainer key={category} to={`/${category}`}>
                         <Button
+                        style={{ color: 'white' }}
                           key={category}
                           onClick={handleCloseNavMenu}
                           sx={{ my: 2, color: 'white', display: 'block' }}
@@ -237,6 +239,13 @@ const Header = () => {
                 </>
               )}
             </Box>
+            {userInfo && userInfo.admin && (
+              <LinkContainer to="/admin" style={{ color: 'white' }}>
+                <Button variant="contained" color="info">
+                <AdminPanelSettingsIcon/> Admin Panel
+                </Button>
+              </LinkContainer>
+            )}
             <div style={{ marginRight: '10px' }}>
             <form onSubmit={handleSearch}>
             <Search>

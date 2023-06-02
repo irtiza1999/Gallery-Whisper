@@ -24,6 +24,9 @@ import FavoritesScreen from './screens/FavoritesScreen.jsx'
 import { ThemeProvider } from "@material-tailwind/react";
 import SearchScreen from './screens/SearchScreen.jsx'
 import AllOrderScreen from './screens/admin/AllOrderScreen.jsx'
+import AdminPanelScreen from './screens/admin/AdminPanelScreen.jsx'
+import AllUserScreen from './screens/admin/AllUserScreen.jsx'
+import NotFoundScreen from './screens/NotFoundScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,7 +45,10 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute/>}> <Route path='/payment' element={<PaymentScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/placeorder' element={<PlaceOrderScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/order/:id' element={<OrderScreen />} /> </Route>
+      <Route path='' element={<AdminRoute/>}> <Route path='/admin' element={<AdminPanelScreen />} /> </Route>
       <Route path='' element={<AdminRoute/>}> <Route path='/admin/orders' element={<AllOrderScreen />} /> </Route>
+      <Route path='' element={<AdminRoute/>}> <Route path='/admin/userslist' element={<AllUserScreen />} /> </Route>
+      <Route path='*' element={<NotFoundScreen />} />
     </Route>
   ))
 ReactDOM.createRoot(document.getElementById('root')).render(
