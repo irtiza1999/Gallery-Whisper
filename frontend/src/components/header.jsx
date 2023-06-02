@@ -141,7 +141,7 @@ const Header = () => {
                   fontFamily: 'monospace',
                   fontWeight: 700,
                   letterSpacing: '.3rem',
-                  color: 'inherit',
+                  color: 'white',
                   textDecoration: 'none',
                 }}
               >
@@ -208,7 +208,7 @@ const Header = () => {
                   fontFamily: 'monospace',
                   fontWeight: 700,
                   letterSpacing: '.3rem',
-                  color: 'inherit',
+                  color: 'white',
                   textDecoration: 'none',
                 }}
               >
@@ -241,11 +241,12 @@ const Header = () => {
             <form onSubmit={handleSearch}>
             <Search>
             <SearchIconWrapper>
-              <SearchIcon />
+              <SearchIcon style={{ color: 'white' }}/>
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              style={{ color: 'white' }}
               value = {search ? search : ''}
               onChange = {(e) => setSearch(e.target.value)}
             />

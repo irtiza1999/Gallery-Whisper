@@ -184,7 +184,7 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {!order.isPaid && (
+              {!order.isPaid && userInfo._id === order.user._id &&(
                 <ListGroup.Item>
                   {loadingPayPal || isLoading && <Loader />}
 

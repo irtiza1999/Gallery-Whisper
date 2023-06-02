@@ -37,6 +37,17 @@ const addOrderItems = asyncHandler(async (req, res) => {
     }
   });
 
+  const getAllOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.find({}).populate('user', 'name email');
+    if(orders){
+      res.json(orders);
+    }else{
+      res.status(404);
+      throw new Error('Orders not found');
+    }
+  });
+
+
   const getOrderById = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.orderId).populate(
       'user',
@@ -87,4 +98,5 @@ const addOrderItems = asyncHandler(async (req, res) => {
     getOrderById,
     updateOrderToPaid,
     updateOrderToDelivered,
+    getAllOrders,
   };
