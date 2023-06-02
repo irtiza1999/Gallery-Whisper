@@ -21,7 +21,7 @@ const NotFoundContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  animation: ${slideIn} 1s ease-in;
+  animation: ${slideIn} 0.5s ease-in;
 `;
 
 const NotFoundText = styled.h1`
@@ -32,7 +32,7 @@ const NotFoundText = styled.h1`
 const NotFoundScreen = () => {
   return (
     <NotFoundContainer>
-      <NotFoundText>404 Not Found</NotFoundText>
+      <NotFoundText><i>404 Not Found</i></NotFoundText>
       <LinkContainer to='/'>
       <Button variant="contained" color="primary">
         Go Home

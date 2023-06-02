@@ -61,7 +61,7 @@ export default function ClippedDrawer() {
                     <ListItemIcon>
                         <SupervisedUserCircleIcon />
                     </ListItemIcon>
-                        <ListItemText primary={'Manage Users'} />
+                        <ListItemText primary={'Manage Customers'} />
                     </ListItemButton>
                 </ListItem>
             </LinkContainer>

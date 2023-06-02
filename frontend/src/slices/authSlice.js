@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { updateCart } from '../components/cartUtil';
 
 const initialState = {
     userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
@@ -14,7 +15,9 @@ const authSlice = createSlice({
         },
         logout: (state, action) => {
             state.userInfo = null;
+            state.cartItems = [];
             localStorage.removeItem('userInfo');
+            updateCart(state);
         },
     },
 });

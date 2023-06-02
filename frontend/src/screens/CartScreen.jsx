@@ -5,7 +5,8 @@ import { cartAdd, removeFromCart, clearCart } from '../slices/cartSlice';
 import Message from '../components/Message';
 import { FaTrash } from 'react-icons/fa';
 import './CartScreen.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { updateCart } from '../components/cartUtil';
 
 
 
@@ -17,6 +18,7 @@ const CartScreen = () => {
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+  const { userInfo } = useSelector(state => state.auth);
 
  
   const addToCartHandler = async (product, qty) => {
@@ -35,6 +37,8 @@ const CartScreen = () => {
   const checkoutHandler = () => {
     navigate('/shipping');
   };
+
+  
 
 
   return (
