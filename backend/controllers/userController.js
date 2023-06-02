@@ -172,7 +172,16 @@ const makeAdmin = asyncHandler(async (req, res) => {
       });
     });
 
-  
+    const removeUser = asyncHandler(async (req, res) => {
+        const userId = req.body.userId;
+        const user = await User.deleteOne({ _id: userId });
+        if (user.deletedCount === 0) {
+          res.status(404);
+          throw new Error('User not found');
+        }
+        res.json({ message: 'User removed' });
+      });
+      
 
 export {
     authUser,
@@ -184,5 +193,6 @@ export {
     getFavoriteProducts,
     getAllUsers,
     makeAdmin,
-    removeFromAdmin
+    removeFromAdmin,
+    removeUser
 };

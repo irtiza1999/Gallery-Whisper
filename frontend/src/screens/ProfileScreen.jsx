@@ -64,7 +64,10 @@ const ProfileScreen = () => {
                 </Form.Group>
 
                 <Form.Group className = 'my-2' controlId='password'>
-                    <Form.Label>Update Password</Form.Label>
+                    <Form.Label>Update Password
+                    <small>(If you don't want to change password just retype your old password)</small>
+
+                    </Form.Label>
                     <Form.Control type='password' placeholder='Update Password' value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
                 </Form.Group>
 

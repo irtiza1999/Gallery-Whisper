@@ -3,7 +3,7 @@ import {protect} from '../middleware/authMiddleware.js';
 import {
   authUser, register, logout, getUserProfile, updateUserProfile
 ,addToFavorite, getFavoriteProducts,
-getAllUsers, makeAdmin, removeFromAdmin
+getAllUsers, makeAdmin, removeFromAdmin,removeUser
  } from '../controllers/userController.js';
 
 const router = express.Router();
@@ -18,5 +18,6 @@ router.get('/favorite', protect, getFavoriteProducts)
 router.get('/admin/users', protect, getAllUsers)
 router.put('/admin/makeadmin', protect, makeAdmin)
 router.put('/admin/removeadmin', protect, removeFromAdmin)
+router.delete('/admin/removeuser', protect, removeUser)
 
 export default router;

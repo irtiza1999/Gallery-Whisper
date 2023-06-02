@@ -240,7 +240,7 @@ const Header = () => {
               )}
             </Box>
             {userInfo && userInfo.admin && (
-              <LinkContainer to="/admin" style={{ color: 'white' }}>
+              <LinkContainer to="/admin/userslist" style={{ color: 'white' }}>
                 <Button variant="contained" color="info">
                 <AdminPanelSettingsIcon/> Admin Panel
                 </Button>
