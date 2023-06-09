@@ -27,6 +27,7 @@ import AllOrderScreen from './screens/admin/AllOrderScreen.jsx'
 import AdminPanelScreen from './screens/admin/AdminPanelScreen.jsx'
 import AllUserScreen from './screens/admin/AllUserScreen.jsx'
 import NotFoundScreen from './screens/NotFoundScreen.jsx'
+import MyOrderScreen from './screens/MyOrderScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,6 +46,7 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute/>}> <Route path='/payment' element={<PaymentScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/placeorder' element={<PlaceOrderScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/order/:id' element={<OrderScreen />} /> </Route>
+      <Route path='' element={<PrivateRoute/>}> <Route path='/myorder/:userId' element={<MyOrderScreen />} /> </Route>
       <Route path='' element={<AdminRoute/>}> <Route path='/admin' element={<AdminPanelScreen />} /> </Route>
       <Route path='' element={<AdminRoute/>}> <Route path='/admin/orders' element={<AllOrderScreen />} /> </Route>
       <Route path='' element={<AdminRoute/>}> <Route path='/admin/userslist' element={<AllUserScreen />} /> </Route>
