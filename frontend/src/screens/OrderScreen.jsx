@@ -10,8 +10,11 @@ import {
   useGetOrderByIdQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
-  useMarkAsDeliveredMutation
+  useMarkAsDeliveredMutation,
+  useCancelOrderMutation,
+  useCreateOrderMutation,
 } from '../slices/ordersApiSlice';
+
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
@@ -72,7 +75,41 @@ const OrderScreen = () => {
       });
   }
 
+  const [reOrder, { ReorderIsLoading, ReorderError }] = useCreateOrderMutation();
+  const [cancelOrder, { cancelOrderIsLoading, cancelOrderError }] = useCancelOrderMutation();
+  const reOrderHandler = async (order) => {
+    try {
+      const res = await reOrder({
+        orderItems: order.orderItems,
+        shippingAddress: order.shippingAddress,
+        paymentMethod: order.paymentMethod,
+        itemsPrice: order.itemsPrice,
+        shippingPrice: order.shippingPrice,
+        taxPrice: order.taxPrice,
+        totalPrice: order.totalPrice,
+      }).unwrap();
+      toast.success('Reorder Successful!!');
+      refetch();
+    } catch (err) {
+      toast.error(err.message);
+      console.log(err);
+    }
+  };
 
+  const cancelOrderHandler = async (orderId) => {
+    try {
+      const res = await cancelOrder({orderId :orderId})
+      console.log(res);
+      if(res.error){
+          toast.error(res.error.data.message);
+      }else{
+        toast.success('Order Cancelled Successfully!!');
+        refetch();
+      }
+    } catch (err) {
+      toast.error(err);
+    }
+  };
 
   return isLoading ? (
     <Loader />
@@ -184,7 +221,7 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {!order.isPaid && userInfo._id === order.user._id &&(
+              {!order.isCancelled && !order.isPaid && userInfo._id === order.user._id &&(
                 <ListGroup.Item>
                   {loadingPayPal || isLoading && <Loader />}
 
@@ -205,6 +242,29 @@ const OrderScreen = () => {
                   )}
                 </ListGroup.Item>
               )}
+              {userInfo && order &&
+                order.isPaid &&
+                order.isDelivered &&(
+                  <ListGroup.Item>
+                  <Button variant="success" onClick={() => reOrderHandler(order)} style={{marginTop:'10px'}}>
+                        Reorder
+                  </Button>
+                  </ListGroup.Item>
+                )}
+              {userInfo &&
+                !order.isPaid &&
+                !order.isCancelled &&(
+                  <ListGroup.Item>
+                  <Button variant="danger" onClick={() => cancelOrderHandler(order)} style={{marginTop:'10px'}}>
+                        Cancel Order
+                  </Button>
+                  </ListGroup.Item>
+                )
+                }
+              {order.isCancelled && (
+                <ListGroup.Item>
+                  <Message variant='error'>Order Cancelled</Message>
+                  </ListGroup.Item>)}
               {userInfo &&
                 order.isPaid &&
                 userInfo.admin &&

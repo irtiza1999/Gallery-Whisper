@@ -32,7 +32,7 @@ const MyOrderScreen = () => {
         taxPrice: orderId.taxPrice,
         totalPrice: orderId.totalPrice,
       }).unwrap();
-      toast.success('Reorder Successfully!!');
+      toast.success('Reorder Successful!!');
       refetch();
     } catch (err) {
       toast.error(err);
@@ -112,14 +112,14 @@ const MyOrderScreen = () => {
                           Cancel Order
                         </Button>
                       ) : (
-                        <Button variant="danger" disabled>
-                          Cancel Order
-                        </Button>
+                        <Message variant="error">
+                          Order Cancelled
+                        </Message>
                       )}
                     </TableCell>
                   ) : order.isDelivered ? (
                     <TableCell>
-                      <Button variant="success" onClick={() => placeOrderHandler(order)} disabled>
+                      <Button variant="success" onClick={() => placeOrderHandler(order)}>
                         Reorder
                       </Button>
                     </TableCell>
