@@ -7,6 +7,8 @@ import { Button } from 'react-bootstrap';
 import Grid from '@mui/material/Grid';
 import { useGetMyOrdersQuery } from '../slices/ordersApiSlice.js';
 import { useSelector } from 'react-redux';
+import { useCreateOrderMutation } from '../slices/ordersApiSlice.js';
+import { toast } from 'react-toastify';
 
 const MyOrderScreen = () => {
   const { userInfo } = useSelector(state => state.auth);
@@ -17,6 +19,25 @@ const MyOrderScreen = () => {
   useEffect(() => {
     refetch();
   }, []);
+  const [createOrder, { ReorderIsLoading, ReorderError }] = useCreateOrderMutation();
+
+  const placeOrderHandler = async (orderId) => {
+    try {
+      const res = await createOrder({
+        orderItems: orderId.orderItems,
+        shippingAddress: orderId.shippingAddress,
+        paymentMethod: orderId.paymentMethod,
+        itemsPrice: orderId.itemsPrice,
+        shippingPrice: orderId.shippingPrice,
+        taxPrice: orderId.taxPrice,
+        totalPrice: orderId.totalPrice,
+      }).unwrap();
+      toast.success('Reorder Successfully!!');
+      refetch();
+    } catch (err) {
+      toast.error(err);
+    }
+  };
 
   return (
     <Grid container spacing={2} style={{paddingTop:'40px'}}>
@@ -37,6 +58,7 @@ const MyOrderScreen = () => {
                   <TableCell><b>Total Price</b></TableCell>
                   <TableCell><b>Payment Status</b></TableCell>
                   <TableCell><b>Delivery Status</b></TableCell>
+                  <TableCell><b>Actions</b></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -64,11 +86,18 @@ const MyOrderScreen = () => {
                           Not Delivered
                         </b>
                       </TableCell>
-                    ) : !order.isPaid ? (
+                    ) : !order.isDelivered && !order.isPaid ? (
                       <TableCell style={{ color: 'red' }}><b>Not Delivered</b></TableCell>
                     ) : (
                       <TableCell style={{ color: 'green' }}><b>Delivered</b></TableCell>
                     )}
+                    {!order.isPaid ? (
+                      <TableCell><Button variant='danger'>Cancel Order</Button></TableCell>
+                      ): order.isDelivered ? (
+                        <TableCell><Button variant='success' onClick={() => placeOrderHandler(order)}>Reorder</Button></TableCell>
+                        ) : (
+                          <TableCell><Button variant='danger' disabled>Cancel Order</Button></TableCell>
+                        )}
                   </TableRow>
                   </>
                 ))}
