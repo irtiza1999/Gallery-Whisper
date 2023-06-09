@@ -7,19 +7,19 @@ import { Button } from 'react-bootstrap';
 import Grid from '@mui/material/Grid';
 import { useGetMyOrdersQuery } from '../slices/ordersApiSlice.js';
 import { useSelector } from 'react-redux';
-import { useCreateOrderMutation } from '../slices/ordersApiSlice.js';
+import { useCreateOrderMutation, useCancelOrderMutation } from '../slices/ordersApiSlice.js';
 import { toast } from 'react-toastify';
 
 const MyOrderScreen = () => {
   const { userInfo } = useSelector(state => state.auth);
   const userId = userInfo?._id;
   const { data: orders, refetch, isLoading, isError, error } = useGetMyOrdersQuery({userId});
-  console.log(orders);
 
   useEffect(() => {
     refetch();
   }, []);
   const [createOrder, { ReorderIsLoading, ReorderError }] = useCreateOrderMutation();
+  const [cancelOrder, { cancelOrderIsLoading, cancelOrderError }] = useCancelOrderMutation();
 
   const placeOrderHandler = async (orderId) => {
     try {
@@ -39,6 +39,20 @@ const MyOrderScreen = () => {
     }
   };
 
+  const cancelOrderHandler = async (orderId) => {
+    try {
+      const res = await cancelOrder({orderId :orderId})
+      console.log(res);
+      if(res.error){
+          toast.error(res.error.data.message);
+      }else{
+        toast.success('Order Cancelled Successfully!!');
+        refetch();
+      }
+    } catch (err) {
+      toast.error(err);
+    }
+  };
   return (
     <Grid container spacing={2} style={{paddingTop:'40px'}}>
       <Grid item xs={12}>
@@ -92,12 +106,30 @@ const MyOrderScreen = () => {
                       <TableCell style={{ color: 'green' }}><b>Delivered</b></TableCell>
                     )}
                     {!order.isPaid ? (
-                      <TableCell><Button variant='danger'>Cancel Order</Button></TableCell>
-                      ): order.isDelivered ? (
-                        <TableCell><Button variant='success' onClick={() => placeOrderHandler(order)}>Reorder</Button></TableCell>
-                        ) : (
-                          <TableCell><Button variant='danger' disabled>Cancel Order</Button></TableCell>
-                        )}
+                    <TableCell>
+                      {!order.isCancelled ? (
+                        <Button variant="danger" onClick={() => cancelOrderHandler(order._id)}>
+                          Cancel Order
+                        </Button>
+                      ) : (
+                        <Button variant="danger" disabled>
+                          Cancel Order
+                        </Button>
+                      )}
+                    </TableCell>
+                  ) : order.isDelivered ? (
+                    <TableCell>
+                      <Button variant="success" onClick={() => placeOrderHandler(order)} disabled>
+                        Reorder
+                      </Button>
+                    </TableCell>
+                  ) : (
+                    <TableCell>
+                      <Button variant="danger" disabled>
+                        Cancel Order
+                      </Button>
+                    </TableCell>
+                  )}
                   </TableRow>
                   </>
                 ))}

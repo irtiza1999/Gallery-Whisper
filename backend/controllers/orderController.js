@@ -103,11 +103,25 @@ const addOrderItems = asyncHandler(async (req, res) => {
     }
   });
 
+const updateOrderToCancel = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.body.orderId);
+  if (order) {
+    order.isCancelled = true;
+    const updateOrder = await order.save();
+    res.json(updateOrder);
+  } else {
+    res.status(404);
+    throw new Error('Order not found');
+  }
+});
+
+
   export {
     addOrderItems,
     getOrderById,
     updateOrderToPaid,
     updateOrderToDelivered,
     getAllOrders,
-    myOrders
+    myOrders,
+    updateOrderToCancel,
   };
