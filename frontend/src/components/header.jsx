@@ -26,7 +26,7 @@ import { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import { set } from 'mongoose';
+import { Image } from '@material-ui/icons';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 const Search = styled('div')(({ theme }) => ({
@@ -146,7 +146,12 @@ const Header = () => {
                   textDecoration: 'none',
                 }}
               >
-                LOGO
+                 <img
+                  src="https://dl.dropboxusercontent.com/s/5ajwo527jc1bmv1/logo.png?dl=0"
+                  alt="logo"
+                  width="50px"
+                  height="50px"
+                />
               </Typography>
             </LinkContainer>
 
