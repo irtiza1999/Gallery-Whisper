@@ -6,6 +6,9 @@ const productSchema = mongoose.Schema({
         required: true,
         unique:true
     },
+    size: {
+        type: String,
+    },
     description: {
         type: String,
         required: true,
@@ -13,6 +16,18 @@ const productSchema = mongoose.Schema({
     category: {
         type: String,
         required: true,
+    },
+    artists : {
+        type: String,
+    },
+    style : {
+        type: String,
+    },
+    subject: {
+        type: String,
+    },
+    medium: {
+        type: String,
     },
     price: {
         type: Number,

@@ -56,7 +56,10 @@ const OrderScreen = () => {
     });
   }
 
-
+  useEffect(() => {
+    refetch();
+  },);
+  
   function onError(err) {
     toast.error(err.message);
   }

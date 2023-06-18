@@ -43,7 +43,9 @@ const getCategoryProducts = asyncHandler(async (req, res) => {
 
 //post a product private admin
 const createProduct = asyncHandler(async (req, res) => {
-    const {name,description,category,price,countInStock,image} = req.body;
+    const {name,size,description,category,artists, style, 
+        subject, medium ,price,countInStock,image} = req.body;
+    const count = parseInt(countInStock[0], 10);
     const product = await Product.findOne({ name });
     if(product){
         res.status(400);
@@ -52,10 +54,15 @@ const createProduct = asyncHandler(async (req, res) => {
     else{
         const newProduct = await Product.create({
             name,
+            size,
             description,
             category,
+            artists,
+            style,
+            subject,
+            medium,
             price,
-            countInStock,
+            countInStock: count,
             image
         });
         if(newProduct){
