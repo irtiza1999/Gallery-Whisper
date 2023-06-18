@@ -109,6 +109,9 @@ const ProductScreen = () => {
       refetchProduct();
     }
   };
+  //   useEffect(() => {
+  //     refetchReviews();
+  // });
 
 
 function calculateTimeAgo(createdAt) {
@@ -276,7 +279,7 @@ setInterval(() => {
           {reviewData && reviewData.length === 0 && (
             <Message variant="info"><b style={{textAlign: 'center'}}>No reviews</b></Message>
           )}
-          {!reviewSuccess && reviewData && reviewData.map((review) => (
+          {reviewData && reviewData.map((review) => (
             <Grid item key={review._id} style={{ border: '1px solid #ccc', 
             borderRadius: '8px', padding: '10px', marginBottom : '10px' }}>
               <Row>
@@ -303,7 +306,7 @@ setInterval(() => {
                   <Typography variant="body1">{review.user.name.toUpperCase()}</Typography>
                 </Col>
               </Row>
-                        <Row>
+            <Row>
             <Col sm={2}>
               <Typography variant="body1">On:</Typography>
             </Col>

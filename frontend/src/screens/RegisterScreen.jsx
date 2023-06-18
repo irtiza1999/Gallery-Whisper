@@ -3,10 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import {Form, Button, Row, Col} from "react-bootstrap";
 import Formcontainer from "../components/Formcontainer";
 import { useDispatch, useSelector } from "react-redux";
-import {useRegisterMutation} from '../slices/userApiSlice';
+import {useRegisterMutation, useGoogleRegMutation} from '../slices/userApiSlice';
 import { setCredentials } from "../slices/authSlice";
 import {toast} from 'react-toastify'
 import Loader from "../components/Loader";
+import Message from "../components/Message";
+import Grid from '@mui/material/Grid';
+import Image from 'react-bootstrap/Image';
+import { GoogleLoginButton } from "react-social-login-buttons";
+import {LoginSocialGoogle} from 'reactjs-social-login'
 
 
 const RegisterScreen = () => {
@@ -20,6 +25,7 @@ const RegisterScreen = () => {
 
     const {userInfo} = useSelector(state => state.auth);
     const [register, {isLoading}] = useRegisterMutation();
+    const [googleReg, {googleRegIsLoading}] = useGoogleRegMutation();
 
     useEffect(() => {
         if(userInfo) {
@@ -42,7 +48,33 @@ const RegisterScreen = () => {
             }
         }
     };
+
+    const handleGoogleReg = async(response) => {
+    if (response && response.provider === 'google') {
+        const { email, name } = response.data;
+        try{
+        const res = await googleReg({email, name}).unwrap();
+        dispatch(setCredentials({...res}))
+        navigate('/');
+        }catch(err){
+            <Message variant='error'>{toast.error(err?.data?.message || err?.error)}</Message>
+        }
+    }
+    };
     return (
+        <Grid container spacing={2}>
+                <Grid item xs={3} style={{ display: 'flex', justifyContent: 'center', 
+                alignItems: 'center' }}>
+                 <Image
+                    src='https://cdn-icons-png.flaticon.com/512/8521/8521787.png'
+                    alt='login image'
+                    fluid
+                    rounded
+                    style={{ height: '200px', width: '200px' }}
+                    />
+
+                </Grid>
+              <Grid item xs={9}>
         <Formcontainer>
             <h1 style={{ paddingTop: '40px' }}>Sign In</h1>
             <Form onSubmit={submitHandler}>
@@ -68,12 +100,31 @@ const RegisterScreen = () => {
                 {isLoading && <Loader />}
                 <Button type='submit' variant='primary' className='mt-3'>Sign Up</Button>
                 <Row className='py-3'>
+                    <LoginSocialGoogle
+                            client_id={"344095228693-51ag8162m29l3ocehqopu9a75sj3ptro.apps.googleusercontent.com"}
+                            scope="openid profile email"
+                            discoveryDocs="claims_supported"
+                            access_type="offline"
+                            onResolve={handleGoogleReg}
+                            onReject={(err) => {
+                            console.log(err);
+                            }}
+                        >
+                        <GoogleLoginButton style={{
+                            borderRadius: "4px",
+                            fontWeight: "bold",
+                        }} > Register with Google </GoogleLoginButton>
+                        </LoginSocialGoogle>
+                </Row>
+                <Row className='py-3'>
                     <Col>
                         Already Have an Account? <Link to='/login'>Login</Link>
                     </Col>
                 </Row>
             </Form>
         </Formcontainer>
+        </Grid>
+        </Grid>
   )
 }
 

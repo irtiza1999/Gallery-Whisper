@@ -74,6 +74,21 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        googleLogin: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/googlelogin`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
+
+        googleReg: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/googleregister`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
     })
     
 })
@@ -87,5 +102,7 @@ export const { useLoginMutation,
      useGetAllUsersQuery,
      useMakeAdminMutation,
     useRemoveAdminMutation,
-    useRemoveUserMutation
+    useRemoveUserMutation,
+    useGoogleLoginMutation,
+    useGoogleRegMutation,
  } = usersApiSlice;

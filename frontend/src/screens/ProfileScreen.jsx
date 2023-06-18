@@ -7,6 +7,8 @@ import { setCredentials } from "../slices/authSlice";
 import {toast} from 'react-toastify'
 import Loader from "../components/Loader";
 import {useUpdateUserMutation} from '../slices/userApiSlice';
+import Grid from '@mui/material/Grid';
+import Image from 'react-bootstrap/Image';
 
 
 
@@ -50,6 +52,19 @@ const ProfileScreen = () => {
         }
     };
     return (
+        <Grid container spacing={2}>
+                <Grid item xs={3} style={{ display: 'flex', justifyContent: 'center', 
+                alignItems: 'center' }}>
+                 <Image
+                    src='https://cdn-icons-png.flaticon.com/512/6269/6269970.png'
+                    alt='login image'
+                    fluid
+                    rounded
+                    style={{ height: '200px', width: '200px' }}
+                    />
+
+                </Grid>
+              <Grid item xs={9}>
         <Formcontainer>
             <h1 style={{ paddingTop: '80px' }}>Update Profile</h1>
             <Form onSubmit={submitHandler}>
@@ -79,6 +94,8 @@ const ProfileScreen = () => {
                 <Button type='submit' variant='primary' className='mt-3'>Update Profile</Button>
             </Form>
         </Formcontainer>
+        </Grid>
+        </Grid>
   )
 }
 
