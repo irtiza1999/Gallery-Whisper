@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+import Product from '../models/productModel.js';
 
 const addOrderItems = asyncHandler(async (req, res) => {
     const {
@@ -16,6 +17,14 @@ const addOrderItems = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error('No order items');
     } else {
+      orderItems.map(async (item) => {
+        const product = await Product.findById(item._id);
+        if (product) {
+          product.countInStock = product.countInStock - item.qty;
+          await product.save();
+        }
+      });
+
       const order = new Order({
         orderItems: orderItems.map((x) => ({
           ...x,
@@ -93,27 +102,42 @@ const addOrderItems = asyncHandler(async (req, res) => {
     }
   });
 
-  const myOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.find({user: req.params.userId});
-    if(orders){
-      res.json(orders);
-    }else{
-      res.status(404);
-      throw new Error('Orders not found');
-    }
-  });
+const myOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.params.userId })
+    .sort({ createdAt: -1 })
+    .exec();
+
+  if (orders) {
+    res.json(orders);
+  } else {
+    res.status(404);
+    throw new Error('Orders not found');
+  }
+});
+
 
 const updateOrderToCancel = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.body.orderId);
   if (order) {
+    await Promise.all(
+      order.orderItems.map(async (item) => {
+        const product = await Product.findById(item.product);
+        if (product) {
+          product.countInStock += item.qty;
+          await product.save();
+        }
+      })
+    );
+
     order.isCancelled = true;
-    const updateOrder = await order.save();
-    res.json(updateOrder);
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
   } else {
     res.status(404);
     throw new Error('Order not found');
   }
 });
+
 
 
   export {

@@ -77,7 +77,6 @@ const OrderScreen = () => {
         return orderID;
       });
   }
-
   const [reOrder, { ReorderIsLoading, ReorderError }] = useCreateOrderMutation();
   const [cancelOrder, { cancelOrderIsLoading, cancelOrderError }] = useCancelOrderMutation();
   const reOrderHandler = async (order) => {
@@ -264,6 +263,7 @@ const OrderScreen = () => {
                   </ListGroup.Item>
                 )
                 }
+
               {order.isCancelled && (
                 <ListGroup.Item>
                   <Message variant='error'>Order Cancelled</Message>
@@ -271,7 +271,9 @@ const OrderScreen = () => {
               {userInfo &&
                 order.isPaid &&
                 userInfo.admin &&
-                !order.isDelivered && (
+                !order.isDelivered &&
+                userInfo._id !==  order.user._id &&
+                (
                   <ListGroup.Item>
                     <Button
                       type='button'

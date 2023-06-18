@@ -133,12 +133,13 @@ function calculateTimeAgo(createdAt) {
     return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
   }
 }
-setInterval(() => {
-  const createdAt = reviewData.createdAt;
-  const timeAgo = calculateTimeAgo(createdAt);
-  console.log(timeAgo);
-}, 10000);
 
+// if(reviewData && reviewData.length > 0){
+//   setInterval(() => {
+//   const createdAt = reviewData.createdAt;
+//   const timeAgo = calculateTimeAgo(createdAt);
+// }, 10000);
+// }
   
   return (
     <div>
