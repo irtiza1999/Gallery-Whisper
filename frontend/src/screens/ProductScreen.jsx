@@ -80,6 +80,10 @@ const ProductScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if(rating == 0 || comment === ''){
+        toast.error('Please fill all the fields');
+        return;
+      }
     try {
       const res = await createReview({ rating, comment, productId }).unwrap();
       if (res) {
