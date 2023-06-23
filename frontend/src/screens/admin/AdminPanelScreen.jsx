@@ -86,17 +86,6 @@ export default function ClippedDrawer() {
                     </ListItemButton>
                 </ListItem>
             </LinkContainer>
-            <LinkContainer to='/admin/reviewslist'>
-                <ListItem disablePadding>
-                    <ListItemButton>
-                    <ListItemIcon>
-                        <ReviewsIcon />
-                    </ListItemIcon>
-                        <ListItemText primary={'Manage Reviews'} />
-                    </ListItemButton>
-                </ListItem>
-            </LinkContainer>
-
             <LinkContainer to='/admin/artistlist'>
                 <ListItem disablePadding>
                     <ListItemButton>
@@ -104,6 +93,16 @@ export default function ClippedDrawer() {
                         <ColorLensIcon />
                     </ListItemIcon>
                         <ListItemText primary={'Manage Artists'} />
+                    </ListItemButton>
+                </ListItem>
+            </LinkContainer>
+             <LinkContainer to='/admin/reviewslist'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <ReviewsIcon />
+                    </ListItemIcon>
+                        <ListItemText primary={'Manage Reviews'} />
                     </ListItemButton>
                 </ListItem>
             </LinkContainer>

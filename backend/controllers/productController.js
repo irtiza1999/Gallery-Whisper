@@ -113,7 +113,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 //delete a product private admin
 const deleteProduct = asyncHandler(async (req, res) => {
-    const productId = req.params.productId;
+    const productId = req.body.productId;
+    console.log(productId);
     const deletedProduct = await Product.deleteOne({ _id: productId });
     if(deletedProduct){
         res.status(200).json({message: 'Product removed'});

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Typography, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
-import { useGetAllProductQuery, useUpdateProductMutation } from '../../slices/productsApiSlice.js';
+import { useGetAllProductQuery, useUpdateProductMutation,
+useDeleteProductMutation } from '../../slices/productsApiSlice.js';
 import Loader from '../../components/Loader.jsx';
 import Message from '../../components/Message.jsx';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -9,6 +10,7 @@ import AdminPanelScreen from './AdminPanelScreen.jsx';
 import Grid from '@mui/material/Grid';
 import { Modal, Form } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const AdminAllProductScreen = () => {
     const { data, isLoading, refetch, error } = useGetAllProductQuery();
@@ -83,6 +85,19 @@ const AdminAllProductScreen = () => {
             toast.error(error.message);
         }
     }
+
+    const [deleteProduct, { isLoading: isLoadingDelete, error: errorDelete }] = useDeleteProductMutation();
+    const handleRemoveProduct = (e) => {
+        e.preventDefault();
+        try{
+            const res = deleteProduct({productId});
+            toast.success('Product deleted successfully');
+            handleClose();
+            refetch();
+        }catch(error){
+            toast.error(error.message);
+        }
+    }
   useEffect(() => {
     refetch();
   }, []);
@@ -94,7 +109,18 @@ const AdminAllProductScreen = () => {
         <AdminPanelScreen />
       </Grid>
       <Grid item xs={10}>
-      <Typography variant="h3">All Products</Typography>
+      <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+                <Typography variant="h3">All Products</Typography>
+            </Grid>
+            <Grid item>
+                <LinkContainer container to="/admin/addproduct">
+                <Button variant="success" >
+                <AddCircleIcon />
+                </Button>
+                </LinkContainer>
+            </Grid>
+        </Grid>
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -126,8 +152,10 @@ const AdminAllProductScreen = () => {
                   <TableCell>{data.name}</TableCell>
                 <TableCell>{data.category}</TableCell>
                 <TableCell>{data.artists}</TableCell>
-                <TableCell>{data.price}</TableCell>
-                <TableCell>{data.countInStock}</TableCell>
+                <TableCell>${data.price}</TableCell>
+                {data.countInStock > 0 ? (<TableCell>{data.countInStock}</TableCell>)
+                : (<TableCell style={{ color: 'red', fontWeight: 'bold' }}>Out of Stock</TableCell>)
+            }
                     <TableCell>
                         <Button variant="info" 
                         onClick={() => handleShow(data)}
@@ -222,7 +250,7 @@ const AdminAllProductScreen = () => {
         </Modal.Body>
         <Modal.Footer>
         <Button variant="danger" 
-        // onClick={handleRemoveProduct}
+        onClick={handleRemoveProduct}
         >Remove Product</Button>
           <Button variant="secondary" onClick={handleClose}>
             Close
