@@ -8,6 +8,12 @@ import { Button } from 'react-bootstrap';
 import { useMarkAsDeliveredMutation } from '../../slices/ordersApiSlice.js';
 import AdminPanelScreen from './AdminPanelScreen.jsx';
 import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { Row, Col } from 'react-bootstrap';
+import {useNavigate}  from 'react-router-dom';
 
 const AllOrderScreen = () => {
   const { data: orders, refetch, isLoading, error } = useGetAllOrdersQuery();
@@ -23,13 +29,50 @@ const AllOrderScreen = () => {
     refetch();
   };
 
+  const navigate = useNavigate();
+  const handleChange = (event) => {
+    const filter = event.target.value;
+    if (filter === '') {
+      navigate('/admin/orders');
+    }else{
+      navigate(`/admin/orders/${filter}`);
+    }
+  };
   return (
     <Grid container spacing={2}>
        <Grid item xs={2}>
         <AdminPanelScreen />
       </Grid>
       <Grid item xs={10}>
-      <Typography variant="h3">All Orders</Typography>
+         <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+                <Typography variant="h3">All Orders</Typography>
+            </Grid>
+            <Grid item>
+                
+        <Row style={{ alignItems: 'center' }}>
+          <Col>
+            <FormControl style={{ minWidth: '150px' }}>
+              <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Filter"
+                onChange={handleChange}
+                variant="outlined"
+                style={{ width: '100%' }}
+              >
+                <MenuItem value={''}>Default</MenuItem>
+                <MenuItem value={'paid'}>Paid</MenuItem>
+                <MenuItem value={'notPaid'}>Not Paid</MenuItem>
+                <MenuItem value={'delivered'}>Delivered</MenuItem>
+                <MenuItem value={'notDelivered'}>Not Delivered</MenuItem>
+              </Select>
+            </FormControl>
+          </Col>
+        </Row>
+            </Grid>
+        </Grid>
       {isLoading ? (
         <Loader />
       ) : error ? (

@@ -5,10 +5,6 @@ import Loader from './Loader';
 import ProductCard from './ProductCard';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import {useNavigate}  from 'react-router-dom';
 
 const AllProducts = () => {
@@ -29,33 +25,6 @@ const AllProducts = () => {
       <Col style={{ textAlign: 'center' }}>
           <h5 style={{ marginBottom: '10px' }}>LATEST PRODUCTS</h5>
       </Col>
-      <Grid container sx={{ maxWidth: 50 }} justifyContent="flex-start">
-        <Row style={{ alignItems: 'center' }}>
-          <Col>
-            <FormControl style={{ minWidth: '150px' }}>
-              <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Filter"
-                onChange={handleChange}
-                variant="outlined"
-                style={{ width: '100%' }}
-              >
-                <MenuItem value={'stock'}>In Stock</MenuItem>
-                <MenuItem value={'pLow'}>Price Low to High</MenuItem>
-                <MenuItem value={'pHigh'}>Price High to Low</MenuItem>
-                <MenuItem value={'alphaA'}>Name (A-Z)</MenuItem>
-                <MenuItem value={'alphaZ'}>Name (Z-A)</MenuItem>
-                <MenuItem value={'ratingHigh'}>Rating (Highest)</MenuItem>
-                <MenuItem value={'ratingLow'}>Rating (Lowest)</MenuItem>
-              </Select>
-            </FormControl>
-          </Col>
-        </Row>
-      </Grid>
-
-
   {isLoading ? (
     <Loader />
   ) : error ? (

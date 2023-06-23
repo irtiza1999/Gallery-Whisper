@@ -12,6 +12,7 @@ import { Modal, Form } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
+
 const AdminAllProductScreen = () => {
     const { data, isLoading, refetch, error } = useGetAllProductQuery();
     const [show, setShow] = useState(false);
