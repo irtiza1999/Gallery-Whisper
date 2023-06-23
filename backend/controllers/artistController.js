@@ -70,11 +70,39 @@ const removeArtist = asyncHandler(async (req, res) => {
   }
 });
 
+const updateArtist = asyncHandler(async (req, res) => {
+  console.log(req.body)
+  const userId = req.body._id;
+  const artist = await Artist.findById(userId);
+  if (!artist) {
+    res.status(404);
+    throw new Error('Artist not found');
+  }
+  artist.name = req.body.name || artist.name;
+  artist.email = req.body.email || artist.email;
+  artist.nationality = req.body.nationality || artist.nationality;
+  artist.info = req.body.info || artist.info;
+  artist.exhibitions = req.body.exhibitions || artist.exhibitions;
+
+  const updatedArtist = await artist.save();
+
+  res.json({
+    _id: updatedArtist._id,
+    name: updatedArtist.name,
+    email: updatedArtist.email,
+    nationality: updatedArtist.nationality,
+    info: updatedArtist.info,
+    exhibitions: updatedArtist.exhibitions,
+  });
+});
+
+
 
 
 export {
     artistInfo,
     createArtist,
     allArtistInfo,
-    removeArtist
+    removeArtist,
+    updateArtist
 };

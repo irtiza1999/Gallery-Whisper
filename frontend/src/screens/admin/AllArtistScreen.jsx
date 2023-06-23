@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Typography, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
-import { useGetAllArtistQuery, useAddArtistMutation, useRemoveArtistMutation
+import { useGetAllArtistQuery, useAddArtistMutation, useRemoveArtistMutation, 
+    useUpdateArtistMutation
 } from '../../slices/artistApiSlice.js';
 import Loader from '../../components/Loader.jsx';
 import Message from '../../components/Message.jsx';
@@ -15,14 +16,15 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 const AllArtistScreen = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [nationality, setNationality] = useState('');
     const [info, setInfo] = useState('');
     const [exhibitions, setExhibitions] = useState('');
-    const [newNationality, setNewNationality] = useState('');
 
     const [newName, setNewName] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [newInfo, setNewInfo] = useState('');
     const [newExhibitions, setNewExhibitions] = useState('');
+    const [newNationality, setNewNationality] = useState('');
 
     const [userId, setUserId] = useState('');
     const { userInfo } = useSelector((state) => state.auth);
@@ -36,6 +38,7 @@ const AllArtistScreen = () => {
     setUserId('');
     setName('');
     setEmail('');
+    setNationality('');
     setInfo('');
     setExhibitions('');
   };
@@ -53,6 +56,7 @@ const addHandleClose = () => {
     setUserId(user._id);
     setName(user.name);
     setEmail(user.email);
+    setNationality(user.nationality);
     setInfo(user.info);
     setExhibitions(user.exhibitions);
   };
@@ -98,7 +102,28 @@ const addHandleShow = () => {
         toast.error(err?.data?.message || err?.error);
     }
 }
+const [ updateArtist, {updateLoading, updateError} ] = useUpdateArtistMutation();
 
+const submitHandler = async (e) => {
+    e.preventDefault();
+    const artist = {
+        _id: userId,
+        name,
+        email,
+        nationality,
+        info,
+        exhibitions,
+    };
+    try {
+        const res = await updateArtist( artist ).unwrap();
+        toast.success('Artist Updated Successfully');
+        refetch();
+        handleClose();
+        }
+    catch (err) {
+        toast.error(err?.data?.message || err?.error);
+    }
+}
   return (
     <Grid container spacing={2}>
       <Grid item xs={2}>
@@ -150,7 +175,11 @@ const addHandleShow = () => {
                       <TableCell>
                         <b>{user._id}</b>
                       </TableCell>
-                      <TableCell>{user.name}</TableCell>
+                   <TableCell>
+                <LinkContainer to={`/artist/${user.name}`}>
+                    <a>{user.name}</a>
+                </LinkContainer>
+                </TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
                         {user.nationality}
@@ -174,7 +203,7 @@ const addHandleShow = () => {
         </Modal.Header>
         <Modal.Body>
         <Form 
-        // onSubmit={submitHandler}
+        onSubmit={submitHandler}
         >
         <Form.Group className = 'my-2' controlId='name'>
             <Form.Label>Update Name</Form.Label>
@@ -184,6 +213,11 @@ const addHandleShow = () => {
         <Form.Group className = 'my-2' controlId='email'>
             <Form.Label>Update Address</Form.Label>
             <Form.Control type='email' placeholder='Enter Email' value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
+        </Form.Group>
+
+        <Form.Group className = 'my-2' controlId='nation'>
+            <Form.Label>Nationality</Form.Label>
+            <Form.Control type='text' placeholder='Update Nationality' value={nationality} onChange={(e) => setNationality(e.target.value)}></Form.Control>
         </Form.Group>
 
         <Form.Group className = 'my-2' controlId='password'>

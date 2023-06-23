@@ -33,10 +33,10 @@ export const artistApiSlice = apiSlice.injectEndpoints({
         }),
 
         updateArtist: builder.mutation({
-            query: (userId) => ({
-                url: `${ARTIST_URL}/${userId}`,
+            query: (artist) => ({
+                url: `${ARTIST_URL}`,
                 method: 'PUT',
-                body: userId,
+                body: artist,
             }),
         }),
 }),
@@ -47,5 +47,5 @@ export const {
     useGetAllArtistQuery,
     useAddArtistMutation,
     useRemoveArtistMutation,
-
+    useUpdateArtistMutation,
 } = artistApiSlice;

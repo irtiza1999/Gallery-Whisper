@@ -34,7 +34,6 @@ const ArtistScreen = () => {
     fetchFlag();
   }, [artistInfo]);
 
-
   return (
     <div style={{paddingTop :'40px'}}>
       {isLoading ? (<Loader />)
