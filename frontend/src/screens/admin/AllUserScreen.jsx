@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 
-const AllOrderScreen = () => {
+const AllUserScreen = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -229,4 +229,4 @@ const AllOrderScreen = () => {
   );
 };
 
-export default AllOrderScreen;
+export default AllUserScreen;

@@ -160,6 +160,11 @@ const getProductsBySearch = asyncHandler(async (req, res) => {
           { name: { $regex: search, $options: 'i' } },
           { category: { $regex: search, $options: 'i' } },
           { description: { $regex: search, $options: 'i' } },
+          { subject: { $regex: search, $options: 'i' } },
+          { medium: { $regex: search, $options: 'i' } },
+          { style: { $regex: search, $options: 'i' } },
+          { artists: { $regex: search, $options: 'i' } },
+          { size: { $regex: search, $options: 'i' } },
         ]
       });
     if (products.length === 0) {

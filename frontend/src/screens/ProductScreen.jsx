@@ -16,6 +16,7 @@ import Message from '../components/Message';
 import Footer from '../components/Footer';
 import { useGetFavoriteQuery } from '../slices/userApiSlice';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Link } from 'react-router-dom';
  
 
 const ProductScreen = () => {
@@ -152,9 +153,9 @@ function calculateTimeAgo(createdAt) {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Typography variant="h3" color="error">
+        <Message variant="error">
           {error}
-        </Typography>
+        </Message>
       ) : (
         <animated.div style={fadeInProps}>
           <Grid container>
@@ -179,23 +180,56 @@ function calculateTimeAgo(createdAt) {
                   )}
                   <Typography>
                       <div style={{marginTop:'10px'}}>
-                      <LinkContainer to={`/${data.category}`} style={{cursor: 'pointer'}}>
+                      <LinkContainer to={`/${data.category}`} style={{cursor: 'pointer', color:"blue"}}>
                       <b>{data.category.toUpperCase()}</b>
                       </LinkContainer>
                       </div>
                     </Typography>
                 </Grid>
                 <Grid container direction="column" spacing={2}>
-                  <Grid item>
-                    <Typography variant="h5">
-                      <h4>{data.name}</h4>
-                    </Typography>
-                  </Grid>
+                <Grid item>
+                  <Typography variant="h6">
+                      {data.name} by <span><Link to={`/artist/${data.artists}`}>{data.artists}</Link></span>
+                  </Typography>
+                </Grid>
                   <Grid item>
                     <Typography variant="subtitle1">
                       <h5>{data.description}</h5>
                     </Typography>
                   </Grid>
+                <Box
+                sx={{
+                  border: '1px solid #ccc',
+                  borderRadius: '8px',
+                  padding: '10px',
+                  backgroundColor: '#c0c0c0', // Replace with your desired background color
+                }}
+              >
+                <Grid item container>
+                  {data.style && (
+                    <Grid item sx={{ marginRight: '10px' }}>
+                      <Typography variant="subtitle1" sx={{ fontSize: 'small', fontWeight: 'bold', color: 'primary.main' }}>
+                        Style: {data.style.toUpperCase()}
+                      </Typography>
+                    </Grid>
+                  )}
+                  {data.subject && (
+                    <Grid item sx={{ marginRight: '10px' }}>
+                      <Typography variant="subtitle1" sx={{ fontSize: 'small', fontWeight: 'bold', color: 'secondary.main' }}>
+                        Subject: {data.subject.toUpperCase()}
+                      </Typography>
+                    </Grid>
+                  )}
+                  {data.medium && (
+                    <Grid item>
+                      <Typography variant="subtitle1" sx={{ fontSize: 'small', fontWeight: 'bold', color: 'text.secondary' }}>
+                        Medium: {data.medium.toUpperCase()}
+                      </Typography>
+                    </Grid>
+                  )}
+                </Grid>
+                </Box>
+
                   {isFavorite && userInfo &&
                   <>
                   <Grid item>

@@ -56,7 +56,6 @@ const AllProducts = () => {
       </Grid>
 
 
-
   {isLoading ? (
     <Loader />
   ) : error ? (
