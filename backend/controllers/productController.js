@@ -85,7 +85,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
 //update a product private admin
 const updateProduct = asyncHandler(async (req, res) => {
-    const productId = req.params.productId;
+    const productId = req.body.productId;
     const product = await Product.findById(productId);
     if(product){
         product.name = req.body.name || product.name;

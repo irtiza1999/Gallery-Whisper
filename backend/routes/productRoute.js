@@ -13,8 +13,8 @@ router.get('/category/:myCategory', getCategoryProducts);
 router.get('/filter/:filter', getProductsByFilter);
 router.get('/search/:search', getProductsBySearch);
 router.post('/', protect, createProduct);
-router.put('/:productId', protect, updateProduct);
-router.delete('/:productId', protect, deleteProduct);
+router.put('/', protect, updateProduct);
+router.delete('/', protect, deleteProduct);
 
 
 export default router;
