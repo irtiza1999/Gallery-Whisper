@@ -59,6 +59,12 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
                 body: {orderId},
             }),
         }),
+        
+        getFilterOrders: builder.query({
+            query: ({ filter }) => ({
+                url: `${ORDER_URL}/filter/${filter}`,
+            }),
+        }),
 }),
 })
 
@@ -69,5 +75,6 @@ export const { useCreateOrderMutation,
     useMarkAsDeliveredMutation, 
     useGetAllOrdersQuery,
     useGetMyOrdersQuery,
-    useCancelOrderMutation
+    useCancelOrderMutation,
+    useGetFilterOrdersQuery
 } = ordersApiSlice;

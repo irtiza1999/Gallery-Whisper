@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Typography, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
-import { useGetAllOrdersQuery } from '../../slices/ordersApiSlice.js';
+import { useGetFilterOrdersQuery } from '../../slices/ordersApiSlice.js';
 import Loader from '../../components/Loader.jsx';
 import Message from '../../components/Message.jsx';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -14,13 +14,15 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Row, Col } from 'react-bootstrap';
 import {useNavigate}  from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-const AllOrderScreen = () => {
-  const { data: orders, refetch, isLoading, error } = useGetAllOrdersQuery();
+const FilterOrderScreen = () => {
+    const { filter: fil } = useParams();
+  const { data: orders, refetch, isLoading, error } = useGetFilterOrdersQuery({ filter: fil });
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [fil]);
 
   const [deliverOrder, { isLoading: loadingDeliver }] = useMarkAsDeliveredMutation();
 
@@ -30,10 +32,13 @@ const AllOrderScreen = () => {
   };
 
   const navigate = useNavigate();
-
    const handleChange = (event) => {
-    if(event.target.value != 'default'){
-    navigate(`/admin/orders/filter/${event.target.value}`)}
+    if(event.target.value === 'default'){
+    navigate(`/admin/orders`)
+    }
+    else{
+        navigate(`/admin/orders/filter/${event.target.value}`)
+    }
   };
   return (
     <Grid container spacing={2}>
@@ -73,7 +78,7 @@ const AllOrderScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message>{error.message}</Message>
+        <Message variant={'error'}>{'Error while finding'}</Message>
       ) : orders && orders.length === 0 ? (
         <Message>No orders found.</Message>
       ) : (
@@ -166,4 +171,4 @@ const AllOrderScreen = () => {
     </Grid>
   );
 };
-export default AllOrderScreen;
+export default FilterOrderScreen;
