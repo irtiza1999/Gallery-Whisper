@@ -42,7 +42,7 @@ const handleDeleteReview = async (reviewId) => {
         <AdminPanelScreen />
       </Grid>
       <Grid item xs={10}>
-      <Typography variant="h3">All Reviews</Typography>
+      <Typography variant="h3" style={{ margin : '10px'}}>All Reviews</Typography>
       {isLoading ? (
         <Loader />
       ) : error ? (

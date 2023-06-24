@@ -122,7 +122,7 @@ const AllUserScreen = () => {
         <AdminPanelScreen />
       </Grid>
       <Grid item xs={10}>
-        <Typography variant="h3">All Customers</Typography>
+        <Typography variant="h3" style={{ margin : '10px'}}>All Customers</Typography>
         {isLoading ? (
           <Loader />
         ) : error ? (

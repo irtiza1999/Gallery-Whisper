@@ -42,14 +42,14 @@ const AllOrderScreen = () => {
       </Grid>
       <Grid item xs={10}>
          <Grid container alignItems="center" justifyContent="space-between">
-            <Grid item>
+            <Grid item style={{ margin : '10px'}}>
                 <Typography variant="h3">All Orders</Typography>
             </Grid>
             <Grid item>
                 
         <Row style={{ alignItems: 'center' }}>
           <Col>
-            <FormControl style={{ minWidth: '150px' }}>
+            <FormControl style={{ minWidth: '150px' ,margin : '10px'}}>
               <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
               <Select
                 labelId="demo-simple-select-label"

@@ -48,13 +48,12 @@ const FilterOrderScreen = () => {
       <Grid item xs={10}>
          <Grid container alignItems="center" justifyContent="space-between">
             <Grid item>
-                <Typography variant="h3">All Orders</Typography>
+                <Typography variant="h3" style={{ margin : '10px'}}>Filtered Orders</Typography>
             </Grid>
-            <Grid item>
-                
+        <Grid item>   
         <Row style={{ alignItems: 'center' }}>
           <Col>
-            <FormControl style={{ minWidth: '150px' }}>
+            <FormControl style={{ minWidth: '150px' ,margin : '10px'}}>
               <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -62,7 +61,7 @@ const FilterOrderScreen = () => {
                 label="Filter"
                 onChange={handleChange}
                 variant="outlined"
-                style={{ width: '100%' }}
+                style={{ width: '100%'}}
               >
                 <MenuItem value={'default'}>Default</MenuItem>
                 <MenuItem value={'paid'}>Paid</MenuItem>

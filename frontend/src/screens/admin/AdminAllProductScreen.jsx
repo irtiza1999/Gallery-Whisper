@@ -110,7 +110,7 @@ const AdminAllProductScreen = () => {
         <AdminPanelScreen />
       </Grid>
       <Grid item xs={10}>
-      <Grid container alignItems="center" justifyContent="space-between">
+      <Grid container alignItems="center" justifyContent="space-between" style={{ margin : '10px'}}>
             <Grid item>
                 <Typography variant="h3">All Products</Typography>
             </Grid>
