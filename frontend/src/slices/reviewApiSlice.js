@@ -16,7 +16,20 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
                 url: `${REVIEW_URL}/${productId}`,
             }),
         }),
+
+        deleteReview: builder.mutation({
+            query: (reviewId) => ({
+                url: `${REVIEW_URL}`,
+                method: 'DELETE',
+                body: { id: reviewId },
+            }),
+        }),
+        getAllReviews: builder.query({
+            query: () => `${REVIEW_URL}`,
+        }),
+
     })
 })
-export const { useCreateReviewMutation, useGetReviewQuery } = reviewApiSlice;
+export const { useCreateReviewMutation, useGetReviewQuery,
+useDeleteReviewMutation, useGetAllReviewsQuery } = reviewApiSlice;
 export default reviewApiSlice;

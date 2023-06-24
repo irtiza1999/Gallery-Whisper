@@ -32,6 +32,7 @@ import ArtistScreen from './screens/ArtistScreen.jsx'
 import AllArtistScreen from './screens/admin/AllArtistScreen.jsx'
 import AdminAllProductScreen from './screens/admin/AdminAllProductScreen.jsx'
 import AdminAddProductScreen from './screens/admin/AdminAddProductScreen.jsx'
+import AllReviewScreen from './screens/admin/AllReviewScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -58,6 +59,7 @@ const router = createBrowserRouter(
       <Route path='' element={<AdminRoute/>}> <Route path='/admin/artistlist' element={<AllArtistScreen />} /> </Route>
       <Route path='' element={<AdminRoute/>}> <Route path='/admin/productslist' element={<AdminAllProductScreen />} /> </Route>
       <Route path='' element={<AdminRoute/>}> <Route path='/admin/addproduct' element={<AdminAddProductScreen />} /> </Route>
+      <Route path='' element={<AdminRoute/>}> <Route path='/admin/reviewslist' element={<AllReviewScreen />} /> </Route>
       <Route path='*' element={<NotFoundScreen />} />
     </Route>
   ))

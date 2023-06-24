@@ -58,6 +58,40 @@ const getReview = asyncHandler(async (req, res) => {
     }
 });
 
+const deleteReview = asyncHandler(async (req, res) => {
+  const reviewId = req.body.id;
+  const review = await Review.findById(reviewId);
+  if (review) {
+    let product = await Product.findById(review.product);
+    if (product) {
+      const existingRating = product.rating || 0;
+      const existingNumReviews = product.numReviews || 0;
+      const newTotalRating = existingRating * existingNumReviews - review.rating;
+      const newNumReviews = existingNumReviews - 1;
+      const newAverageRating = newNumReviews === 0 ? 0 : newTotalRating / newNumReviews;
+      product.rating = newAverageRating;
+      product.numReviews = newNumReviews;
+      await product.save();
+    }
+    await review.deleteOne();
+    res.status(200).json({ message: 'Review removed' });
+  } else {
+    res.status(404);
+    throw new Error('Review not found');
+  }
+});
 
 
-export { createReview, getReview };
+const getAllReviews = asyncHandler(async (req, res) => {
+    const reviews = await Review.find({}).populate('user', 'name')
+        .populate('product', 'name rating');
+    if (reviews) {
+        res.status(200).json(reviews);
+    } else {
+        res.status(404);
+        throw new Error('Reviews not found');
+    }
+});
+
+
+export { createReview, getReview, deleteReview, getAllReviews };
