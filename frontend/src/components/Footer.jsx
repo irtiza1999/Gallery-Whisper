@@ -3,10 +3,7 @@ import './Footer.css'
 import { LinkContainer } from 'react-router-bootstrap';
 import { Button } from '@mui/material';
 import { useGetCategoryQuery } from '../slices/productsApiSlice';
-import CreditCardIcon from '@material-ui/icons/CreditCard';
-// import PayPalIcon from '@material-ui/icons/PayPal';
-import VisaIcon from '@material-ui/icons/Visa';
-
+import { FaCcAmex, FaCreditCard, FaPaypal, FaCcVisa } from 'react-icons/fa';
 
 
 const Footer = () => {
@@ -32,7 +29,8 @@ const Footer = () => {
                         <Button
                         style={{ color: 'white' }}
                           key={category}
-                          sx={{ my: 2, color: 'white', display: 'block' }}
+                          sx={{ my: 2, color: 'white' }}
+                          // className="categoryB"
                         >
                           {category.toUpperCase()}
                         </Button>
@@ -41,22 +39,23 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-sm-4">
-  <h4 className="title">Payment</h4>
-  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-  <div className="payment">
-    <CreditCardIcon />
-    <CreditCardIcon />
-    {/* <PayPalIcon /> */}
-    <VisaIcon />
-  </div>
-</div>
+            <h4 className="title">Payment</h4>
+            <ul className="payment">
+              <li><span ><FaCcAmex /></span></li>
+              <li><span ><FaCreditCard /></span></li>
+              <li><span ><FaPaypal /></span></li>
+              <li><span ><FaCcVisa /></span></li>
+            </ul>
+          </div>
         </div>
         <hr />
-        <div className="row text-center">
-          <a href="http://lacodeid.com/" style={{ color: '#fff' }}>
-            Copyright © Gallery Whisper
-          </a>
-        </div>
+      <div className="row text-center">
+        <span style={{ color: '#fff' }}>
+          Copyright © Gallery Whisper
+          {' '}
+          {new Date().getFullYear()}
+        </span>
+      </div>
       </div>
     </footer>
   );

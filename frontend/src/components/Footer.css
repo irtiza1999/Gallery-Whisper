@@ -2,11 +2,12 @@
 .footer {
     padding: 50px 0 20px 0;
     background-color: #4834d4;
-    color: #878c94;
+    color: #dedfe0;
+	border-radius: 50px;
 }
 .footer .title{
 	text-align: left;
-	color:#fff;
+	color:#ffffff;
 	font-size:25px;
 }
 .footer .social-icon{
@@ -48,7 +49,7 @@
 .footer .payment li{
 	list-style-type:none
 }
-.footer .payment li a {
+.footer .payment li span {
     text-decoration: none;
     display: inline-block;
     color: #fff;
