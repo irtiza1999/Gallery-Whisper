@@ -1,5 +1,6 @@
 /*FOOTER START///////////////////*/
 .footer {
+	margin-top: 40px;
     padding: 50px 0 20px 0;
     background-color: #4834d4;
     color: #dedfe0;
@@ -54,6 +55,6 @@
     display: inline-block;
     color: #fff;
     float: left;
-    font-size: 25px;
+    font-size: 40px;
     padding: 10px 10px;
 }

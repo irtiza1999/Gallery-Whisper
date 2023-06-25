@@ -41,9 +41,9 @@ const Footer = () => {
           <div className="col-sm-4">
             <h4 className="title">Payment</h4>
             <ul className="payment">
+              <li><span ><FaPaypal /></span></li>
               <li><span ><FaCcAmex /></span></li>
               <li><span ><FaCreditCard /></span></li>
-              <li><span ><FaPaypal /></span></li>
               <li><span ><FaCcVisa /></span></li>
             </ul>
           </div>
