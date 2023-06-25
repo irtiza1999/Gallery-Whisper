@@ -141,22 +141,47 @@ const updateOrderToCancel = asyncHandler(async (req, res) => {
 const filterOrder = asyncHandler(async (req, res) => {
   const filter = req.params.filter;
   if(filter === 'paid'){
-    const orders = await Order.find({ isPaid: true });
+    const orders = await Order.find({ isPaid: true }).populate(
+      'user',
+      'name email'
+    )
+    .sort({ createdAt: -1 })
+    .exec();
     res.status(200).json(orders);
   }else if(filter === 'notPaid'){
-    const orders = await Order.find({ isPaid: false });
+    const orders = await Order.find({ isPaid: false }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
     res.status(200).json(orders);
   }else if(filter === 'delivered'){
-    const orders = await Order.find({ isDelivered: true });
+    const orders = await Order.find({ isDelivered: true }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
     res.status(200).json(orders);
   }else if(filter === 'notDelivered'){
-    const orders = await Order.find({ isDelivered: false });
+    const orders = await Order.find({ isDelivered: false }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
     res.status(200).json(orders);
   }else if(filter === 'cancelled'){
-    const orders = await Order.find({ isCancelled: true });
+    const orders = await Order.find({ isCancelled: true }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
     res.status(200).json(orders);
   }else if(filter === 'notCancelled'){
-    const orders = await Order.find({ isCancelled: false });
+    const orders = await Order.find({ isCancelled: false }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
     res.status(200).json(orders);
   }else{
     res.status(404);
