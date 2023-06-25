@@ -3,7 +3,7 @@ import Header from "./components/header";
 import { Container } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import ErrorBoundary from "./components/ErrorBoundary";
+import Footer from "./components/footer";
 
 const App = () => {
   const location = useLocation();
@@ -40,6 +40,7 @@ const App = () => {
           />
       <Container className="my-2">
         <Outlet />
+        {!isAdminPanel && <Footer />}
       </Container>
     </>
   );
