@@ -12,7 +12,6 @@ import Grid from '@mui/material/Grid';
 import Image from 'react-bootstrap/Image';
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { LoginSocialGoogle } from 'reactjs-social-login';
-import { useHistory } from "react-router-dom";
 
 
 const LoginScreen = () => {
@@ -27,7 +26,6 @@ const LoginScreen = () => {
   const [googleLogin, { googleLoginIsLoading }] = useGoogleLoginMutation();
 
   const { userInfo } = useSelector(state => state.auth);
-  const history = useHistory();
 
   useEffect(() => {
     if (userInfo) {

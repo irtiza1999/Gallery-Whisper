@@ -194,7 +194,7 @@ function calculateTimeAgo(createdAt) {
                 </Grid>
                   <Grid item>
                     <Typography variant="subtitle1">
-                      <h5>{data.description}</h5>
+                      <h6>{data.description}</h6>
                     </Typography>
                   </Grid>
                 <Box
