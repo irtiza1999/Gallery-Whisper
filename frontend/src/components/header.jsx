@@ -26,7 +26,6 @@ import { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import { Image } from '@material-ui/icons';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 
@@ -337,20 +336,16 @@ const Header = () => {
                 </Box>
               </>
             ) : (
-              <>
-                <LinkContainer to="/register" className="mx-2">
-                  <Button variant="contained">Register</Button>
-                </LinkContainer>
-                <LinkContainer to="/login">
-                  <Button variant="contained" color="success">
-                    Login
-                  </Button>
-                </LinkContainer>
-              </>
+              <LinkContainer to="/login">
+                <Button variant="outlined" color="info">
+                  Login
+                </Button>
+              </LinkContainer>
             )}
           </Toolbar>
         </Container>
       </AppBar>
+      <Toolbar />
     </div>
   );
 };
