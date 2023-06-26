@@ -20,7 +20,17 @@ const artistSchema = mongoose.Schema({
     },
     exhibitions:{
         type: String,
-    }
+    },
+    isVerified:{
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    commission:{
+        type: Number,
+        required: true,
+        default: 0,
+    },
 }
 ,{
     timestamps: true

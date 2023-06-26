@@ -28,6 +28,7 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import { Image } from '@material-ui/icons';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -244,6 +245,16 @@ const Header = () => {
                 </>
               )}
             </Box>
+            <div style={{ marginRight: '10px' }}>
+            {userInfo && userInfo.artists && (
+              <LinkContainer to="/artist/panel" style={{ color: 'white' }}>
+                <Button variant="contained" color="info">
+                  <GroupWorkIcon/> Artist Dashboard
+                </Button>
+              </LinkContainer>
+            )}
+            </div>
+            
             {userInfo && userInfo.admin && (
               <LinkContainer to="/admin/userslist" style={{ color: 'white' }}>
                 <Button variant="contained" color="info">
@@ -251,6 +262,7 @@ const Header = () => {
                 </Button>
               </LinkContainer>
             )}
+
             <div style={{ marginRight: '10px' }}>
             <form onSubmit={handleSearch}>
             <Search>

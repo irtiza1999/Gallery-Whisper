@@ -17,6 +17,7 @@ const authUser = asyncHandler(async (req, res) => {
             email : user.email,
             admin : user.isAdmin,
             fav : user.favoriteProducts,
+            artists : user.isArtist,
         });
     }else{
         res.status(401);
@@ -46,7 +47,8 @@ const register = asyncHandler(async (req, res) => {
             name : user.name,
             email : user.email,
             admin : user.isAdmin,
-            fav : user.favoriteProducts
+            fav : user.favoriteProducts,
+            artists : user.isArtist,
         });
     }else{
         res.status(400);

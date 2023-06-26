@@ -19,12 +19,14 @@ const AllArtistScreen = () => {
     const [nationality, setNationality] = useState('');
     const [info, setInfo] = useState('');
     const [exhibitions, setExhibitions] = useState('');
+    const [newPassword, setNewPassword] = useState('');
 
     const [newName, setNewName] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [newInfo, setNewInfo] = useState('');
     const [newExhibitions, setNewExhibitions] = useState('');
     const [newNationality, setNewNationality] = useState('');
+    
 
     const [userId, setUserId] = useState('');
     const { userInfo } = useSelector((state) => state.auth);
@@ -41,6 +43,7 @@ const AllArtistScreen = () => {
     setNationality('');
     setInfo('');
     setExhibitions('');
+    setNewPassword('');
   };
 
 const addHandleClose = () => {
@@ -59,6 +62,8 @@ const addHandleClose = () => {
     setNationality(user.nationality);
     setInfo(user.info);
     setExhibitions(user.exhibitions);
+    setNewPassword(user.exhibitions);
+    
   };
 
 const addHandleShow = () => {
@@ -90,6 +95,7 @@ const addHandleShow = () => {
         email: newEmail,
         nationality: newNationality,
         info: newInfo,
+        isVerified: true,
         exhibitions: newExhibitions,
     };
     try {
@@ -220,12 +226,12 @@ const submitHandler = async (e) => {
             <Form.Control type='text' placeholder='Update Nationality' value={nationality} onChange={(e) => setNationality(e.target.value)}></Form.Control>
         </Form.Group>
 
-        <Form.Group className = 'my-2' controlId='password'>
+        <Form.Group className = 'my-2' controlId='info'>
             <Form.Label>Info</Form.Label>
             <Form.Control type='text' placeholder='Update Info' value={info} onChange={(e) => setInfo(e.target.value)}></Form.Control>
         </Form.Group>
 
-        <Form.Group className = 'my-2' controlId='cPassword'>
+        <Form.Group className = 'my-2' controlId='exhibitions'>
             <Form.Label>Exhibitions</Form.Label>
             <Form.Control type='text' placeholder='Update Exhibitions' value={exhibitions} onChange={(e) => setExhibitions(e.target.value)}></Form.Control>
         </Form.Group>
@@ -242,13 +248,6 @@ const submitHandler = async (e) => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-
-
-
-
-
 
       <Modal show={addShow} onHide={addHandleClose}>
         <Modal.Header closeButton>

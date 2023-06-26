@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Artist from '../models/artistModel.js';
 import Product from '../models/productModel.js';
+import User from '../models/userModel.js';
 
 const artistInfo = asyncHandler(async (req, res) => {
   const name = req.params.name;
@@ -26,32 +27,43 @@ const artistInfo = asyncHandler(async (req, res) => {
 });
 
 const createArtist = asyncHandler(async (req, res) => {
-    const {name,email,nationality, info, exhibitions} = req.body;
-    const artistExists = await Artist.findOne({ name });
-    if(artistExists) {
-        res.status(400);
-        throw new Error('Artist already exists');
-    }
-    const artist = await Artist.create({
-        name,
-        email,
-        nationality: nationality || '',
-        info,
-        exhibitions: exhibitions || ''});
-    if(artist){
-        res.status(201).json({
-            _id : artist._id,
-            name : artist.name,
-            email : artist.email,
-            nationality : artist.nationality,
-            info : artist.info,
-            exhibitions : artist.exhibitions
-        });
-    }else{
-        res.status(400);
-        throw new Error('Invalid artist data');
-    }
+  const { name, email, nationality, info, exhibitions, userId } = req.body;
+  const artistExists = await Artist.findOne({ name });
+  if (artistExists) {
+    res.status(400);
+    throw new Error('Artist already exists');
+  }
+  
+  const artist = await Artist.create({
+    name,
+    email,
+    nationality: nationality || '',
+    info,
+    exhibitions: exhibitions || '',
+  });
+  const updateUser = await User.findOne({
+    _id: userId,
+  });
+  if (updateUser) {
+    updateUser.isArtist = true;
+    updateUser.artistId = artist._id;
+    updateUser.save();
+  }
+  if (artist) {
+    res.status(201).json({
+      _id: artist._id,
+      name: artist.name,
+      email: artist.email,
+      nationality: artist.nationality,
+      info: artist.info,
+      exhibitions: artist.exhibitions,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Invalid artist data');
+  }
 });
+
 
 const allArtistInfo = asyncHandler(async (req, res) => {
   const artists = await Artist.find({});
@@ -61,7 +73,15 @@ const allArtistInfo = asyncHandler(async (req, res) => {
 const removeArtist = asyncHandler(async (req, res) => {
   const userId = req.body.userId;
   const artist = await Artist.findById(userId);
+  
   if (artist) {
+    const user = await User.findOne({ artistId: userId });
+    if (user) {
+      user.isArtist = false;
+      user.artistId = null;
+      await user.save();
+    }
+    
     await artist.deleteOne();
     res.json({ message: 'Artist removed' });
   } else {
@@ -69,6 +89,8 @@ const removeArtist = asyncHandler(async (req, res) => {
     throw new Error('Artist not found');
   }
 });
+
+
 
 const updateArtist = asyncHandler(async (req, res) => {
   console.log(req.body)
@@ -83,6 +105,7 @@ const updateArtist = asyncHandler(async (req, res) => {
   artist.nationality = req.body.nationality || artist.nationality;
   artist.info = req.body.info || artist.info;
   artist.exhibitions = req.body.exhibitions || artist.exhibitions;
+  artist.commission = req.body.commission || artist.commission;
 
   const updatedArtist = await artist.save();
 

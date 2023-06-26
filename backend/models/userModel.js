@@ -20,6 +20,14 @@ const userSchema = mongoose.Schema({
         required:true,
         default: false
     },
+    isArtist: {
+        type: Boolean,
+        default: false
+    },
+    artistId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Artist"
+    },
     favoriteProducts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product"
