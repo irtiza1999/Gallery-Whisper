@@ -244,10 +244,11 @@ const Header = () => {
                 </>
               )}
             </Box>
+            <Box  sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
             <div style={{ marginRight: '10px' }}>
             {userInfo && userInfo.artists && (
               <LinkContainer to="/artist/panel" style={{ color: 'white' }}>
-                <Button variant="contained" color="info">
+                <Button variant="contained" color="info" className = 'btn-sm'>
                   <GroupWorkIcon/> Artist Dashboard
                 </Button>
               </LinkContainer>
@@ -256,11 +257,12 @@ const Header = () => {
             
             {userInfo && userInfo.admin && (
               <LinkContainer to="/admin/userslist" style={{ color: 'white' }}>
-                <Button variant="contained" color="info">
+                <Button variant="contained" color="info" className = 'btn-sm'>
                 <AdminPanelSettingsIcon/> Admin Panel
                 </Button>
               </LinkContainer>
             )}
+            </Box>
 
             <div style={{ marginRight: '10px' }}>
             <form onSubmit={handleSearch}>
