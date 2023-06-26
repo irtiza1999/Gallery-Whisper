@@ -7,7 +7,7 @@ import Review from '../models/reviewModel.js';
 
 // get all product public
 const getProduct = asyncHandler(async (req, res) => {
-    const products = await Product.find({});
+    const products = await Product.find();
     res.status(200).json(products);
 });
 
@@ -34,7 +34,7 @@ const getUniqueCategories = asyncHandler(async (req, res) => {
 // get a product from a category public
 const getCategoryProducts = asyncHandler(async (req, res) => {
     const category = req.params.myCategory;
-    const products = await Product.find({ category });
+    const products = await Product.find({ category: category});
     if (products.length === 0) {
       res.status(404);
       throw new Error('No products found');

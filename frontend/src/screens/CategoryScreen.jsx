@@ -21,10 +21,11 @@ const CategoryScreen = () => {
     <h3>{error}</h3>
   ) : products ? (  // Add a check for products before mapping
     <Row style={{ padding: '10px', textAlign: 'center', marginTop: '50px', marginBottom: '80px' }}>
-      {products.map((product) => (
-        <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-          <ProductCard product={product} />
-        </Col>
+      {products.map((product) => ((
+          <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+            <ProductCard product={product} />
+          </Col>
+        )
       ))}
     </Row>
   ) : (
