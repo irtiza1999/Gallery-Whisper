@@ -47,7 +47,7 @@ const getCategoryProducts = asyncHandler(async (req, res) => {
 //post a product private admin
 const createProduct = asyncHandler(async (req, res) => {
     const {name,size,description,category,artists, style, 
-        subject, medium ,price,countInStock,image} = req.body;
+        subject, medium ,price,countInStock,image, isVerified} = req.body;
     const product = await Product.findOne({ name });
     if(product){
         res.status(400);
@@ -66,7 +66,8 @@ const createProduct = asyncHandler(async (req, res) => {
             medium,
             price,
             countInStock,
-            image: imageName
+            image: imageName,
+            isVerified
         });
         if(newProduct){
             res.status(201).json({
@@ -75,7 +76,8 @@ const createProduct = asyncHandler(async (req, res) => {
                 category : product.category,
                 price : product.price,
                 countInStock : product.countInStock,
-                image : product.image
+                image : product.image,
+                isVerified : product.isVerified
             });
         }else{
             res.status(400);
@@ -98,6 +100,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         product.price = req.body.price || product.price;
         product.countInStock = req.body.countInStock || product.countInStock;
         product.image = imageName || product.image;
+        product.isVerified = req.body.isVerified || product.isVerified;
         
         const updatedProduct = await product.save();
         res.status(200).json({

@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {Form, Button, Row, Col} from "react-bootstrap";
-import Formcontainer from "../../components/Formcontainer";
+import Formcontainer from "../components/Formcontainer";
 import {toast} from 'react-toastify'
-import Loader from "../../components/Loader";
-import Message from "../../components/Message";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 import Grid from '@mui/material/Grid';
-import AdminPanelScreen from './AdminPanelScreen.jsx';
-import {useCreateProductMutation} from '../../slices/productsApiSlice';
+import {useCreateProductMutation} from '../slices/productsApiSlice';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { useDispatch, useSelector } from 'react-redux';
 
-const AdminAddProductScreen = () => {
+const ArtistAddProductScreen = () => {
+    const { userInfo } = useSelector((state) => state.auth);
     const [name, setName] = useState('');
     const [size, setSize] = useState('');
     const [description, setDescription] = useState('');
@@ -27,8 +25,6 @@ const AdminAddProductScreen = () => {
     const [image, setImage] = useState('');
 
     const handleClose = () => {
-        setShow(false);
-        setProductId('');
         setName('');
         setSize('');
         setDescription('');
@@ -42,23 +38,10 @@ const AdminAddProductScreen = () => {
         setImage('');
   };
 
+
     const navigate = useNavigate();
     
     const [createProduct, { isLoading: isLoadingCreate, error: errorCreate }] = useCreateProductMutation();
-
-    // const fileToString = (file) => {
-    // console.log(file);
-    // const { name, lastModified, lastModifiedDate, size, type, webkitRelativePath} = file;
-    // const fileObject = {
-    //     name,
-    //     lastModified,
-    //     lastModifiedDate: lastModifiedDate.toString(),
-    //     size,
-    //     type,
-    //     webkitRelativePath,
-    // };
-    // return JSON.stringify(fileObject);
-    // };
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -75,10 +58,10 @@ const AdminAddProductScreen = () => {
             formData.append('price', price);
             formData.append('countInStock', countInStock);
             formData.append('image', image);
-            formData.append('isVerified', true);
+            formData.append('isVerified', false);
             const res = await createProduct(formData).unwrap();
             if(res){
-                navigate("/admin/productslist");
+                navigate("/artist/panel");
                 toast.success('Product added successfully');
                 handleClose();
             }
@@ -88,11 +71,15 @@ const AdminAddProductScreen = () => {
         }
     };
 
+        useEffect(() => {
+        if (userInfo && userInfo.artists) {
+            setArtists(userInfo.name);
+        }
+        }, [userInfo]);
+
+
     return (
         <Grid container spacing={6}>
-            <Grid item xs={2}>
-                <AdminPanelScreen />
-            </Grid>
         <Grid item xs={12}>
         <Formcontainer>
             <h1>Add Product</h1>
@@ -124,7 +111,8 @@ const AdminAddProductScreen = () => {
         <Form.Group className = 'my-2' controlId='artists'>
             <Form.Label>Artists</Form.Label>
             <Form.Control type='text' placeholder='Enter Artists' value={artists}
-            onChange={(e) => setArtists(e.target.value)}>
+            // onChange={(e) => setArtists(e.target.value)}
+            disabled>
             </Form.Control>
         </Form.Group>
         <Form.Group className = 'my-2' controlId='styles'>
@@ -174,4 +162,4 @@ const AdminAddProductScreen = () => {
   )
 }
 
-export default AdminAddProductScreen
+export default ArtistAddProductScreen

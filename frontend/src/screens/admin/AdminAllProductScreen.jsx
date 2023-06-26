@@ -105,7 +105,12 @@ const AdminAllProductScreen = () => {
   useEffect(() => {
     refetch();
   }, []);
-
+  
+  const handleVerify = (product) => {
+    const res = updateProduct({productId: product._id, isVerified: true});
+    toast.success('Product verified successfully');
+    refetch();
+  }
 
   return (
     <Grid container spacing={0}>
@@ -119,7 +124,7 @@ const AdminAllProductScreen = () => {
             </Grid>
             <Grid item>
                 <LinkContainer container to="/admin/addproduct">
-                <Button variant="success" >
+                <Button variant="success" className="btn-sm">
                 <AddCircleIcon />
                 </Button>
                 </LinkContainer>
@@ -136,9 +141,9 @@ const AdminAllProductScreen = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Product ID</TableCell>
+                <TableCell>Product Name</TableCell>
+                <TableCell>Verified</TableCell>
                 <TableCell>Image</TableCell>
-                <TableCell>Name</TableCell>
                 <TableCell>Category</TableCell>
                 <TableCell>Artist</TableCell>
                 <TableCell>Price</TableCell>
@@ -150,10 +155,20 @@ const AdminAllProductScreen = () => {
               {data && data.map((data) => (
                 <TableRow key={data._id}>
                   <LinkContainer to={`/product/${data._id}`} style={{ cursor: 'pointer', color: 'blue' }}>
-                    <TableCell><b>{data._id}</b></TableCell>
+                    <TableCell><b>{data.name}</b></TableCell>
                   </LinkContainer>
+                  <TableCell>{data.isVerified ? <p style={{ color: 'green', fontWeight: 'bold' }}>Verified</p> 
+                  : <>
+                      <Button variant="success"
+                        onClick={() => handleVerify(data)} 
+                        style={{}}
+                        className="btn-sm">
+                          Verify
+                        </Button>
+                    </>
+                  }
+                  </TableCell>
                   <TableCell><img src={imageBaseUrl+data.image} style={{height:'40px', width:'30px'}}/></TableCell>
-                  <TableCell>{data.name}</TableCell>
                 <TableCell>{data.category}</TableCell>
                 <TableCell>{data.artists}</TableCell>
                 <TableCell>${data.price}</TableCell>
@@ -163,7 +178,8 @@ const AdminAllProductScreen = () => {
                     <TableCell>
                         <Button variant="info" 
                         onClick={() => handleShow(data)}
-                        style={{ }}>
+                        style={{}}
+                        className="btn-sm">
                           Update Product
                         </Button>
                     </TableCell>

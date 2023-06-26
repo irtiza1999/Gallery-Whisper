@@ -162,13 +162,14 @@ const AllUserScreen = () => {
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
                         {user.isAdmin ? (
-                        <Button variant="danger" 
+                        <Button variant="danger"
+                        className="btn-sm"
                         onClick={() => handleRemoveFromAdmin(user._id, user.name)} 
                         style={{ width: '150px' }}>
                             Remove From Admin
                         </Button>
                         ) : (
-                        <Button variant="success" 
+                        <Button variant="success" className="btn-sm"
                         onClick={() => handleMakeAdmin(user._id, user.name)} 
                         style={{ width: '150px' }}>
                             Make Admin
@@ -176,7 +177,7 @@ const AllUserScreen = () => {
                         )}
                       </TableCell>
                       <TableCell>
-                        <Button variant="info" onClick={() => handleShow(user)}  
+                        <Button variant="info" onClick={() => handleShow(user)}  className="btn-sm"
                         style={{ width: '150px' }}>
                           Update User
                         </Button>
@@ -215,11 +216,11 @@ const AllUserScreen = () => {
             <Form.Control type='password' placeholder='Confirm Updated Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
         </Form.Group>
         {isLoading && <Loader />}
-        <Button type='submit' variant='primary' className='mt-3'>Update Profile</Button>
+        <Button className="btn-sm" type='submit' variant='primary' className='mt-3'>Update Profile</Button>
             </Form>
         </Modal.Body>
         <Modal.Footer>
-        <Button variant='danger' onClick={handleRemoveUser}>Remove User</Button>
+        <Button className="btn-sm" variant='danger' onClick={handleRemoveUser}>Remove User</Button>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>

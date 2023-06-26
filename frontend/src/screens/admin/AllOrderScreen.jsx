@@ -127,7 +127,7 @@ const AllOrderScreen = () => {
                     <TableCell>
                       <Button
                         type='button'
-                        className='btn btn-block'
+                        className='btn btn-block btn-sm'
                         variant='info'
                         onClick={() => deliverHandler(order._id)}
                       >
@@ -139,7 +139,7 @@ const AllOrderScreen = () => {
                       <TableCell>
                         <Button
                           type='button'
-                          className='btn btn-block'
+                          className='btn btn-block btn-sm'
                           variant='success'
                           disabled>
                           Delivered
@@ -150,7 +150,7 @@ const AllOrderScreen = () => {
                           <TableCell>
                             <Button
                               type='button'
-                              className='btn btn-block'
+                              className='btn btn-block btn-sm'
                               variant='danger'
                               disabled>
                                 Not Paid

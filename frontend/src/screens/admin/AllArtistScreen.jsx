@@ -154,7 +154,7 @@ const handleVerification = async (user) => {
                 <Typography variant="h3">All Artists</Typography>
             </Grid>
             <Grid item>
-                <Button variant="success" onClick={() => addHandleShow()}>
+                <Button className="btn-sm" variant="success" onClick={() => addHandleShow()}>
                 <AddCircleIcon />
                 </Button>
             </Grid>
@@ -210,14 +210,14 @@ const handleVerification = async (user) => {
                         {user.isVerified
                           ? 
                           <>
-                            <Button variant="danger" onClick={() => handleVerification(user)}  
-                        style={{ width: '90px' }}>
+                            <Button className="btn-sm" variant="danger" onClick={() => handleVerification(user)}  
+                        >
                           Mark As Not Verified
                         </Button>
                           </>
                 :           <>
-                        <Button variant="success" onClick={() => handleVerification(user)}  
-                              style={{ width: '90px' }}>
+                        <Button className="btn-sm" variant="success" onClick={() => handleVerification(user)}  
+                              >
                               Mark As Verified
                         </Button>
                           </>
@@ -225,7 +225,7 @@ const handleVerification = async (user) => {
                         
                       </TableCell>
                       <TableCell>
-                        <Button variant="info" onClick={() => handleShow(user)}  
+                        <Button className="btn-sm" variant="info" onClick={() => handleShow(user)}  
                         style={{ width: '90px' }}>
                           Update Artist
                         </Button>
@@ -270,14 +270,14 @@ const handleVerification = async (user) => {
             <Form.Control type='text' placeholder='Update Exhibitions' value={exhibitions} onChange={(e) => setExhibitions(e.target.value)}></Form.Control>
         </Form.Group>
         {isLoading && <Loader />}
-        <Button type='submit' variant='primary' className='mt-3'>Update Profile</Button>
+        <Button type='submit' variant='primary' className='mt-3 btn-sm'>Update Profile</Button>
             </Form>
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="danger" onClick={handleRemoveArtist}>
+        <Button className="btn-sm" variant="danger" onClick={handleRemoveArtist}>
                 Remove Artist
                 </Button>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button className="btn-sm" variant="secondary" onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>
@@ -316,7 +316,7 @@ const handleVerification = async (user) => {
             <Form.Control type='text' placeholder='Exhibitions' onChange={(e) => setNewExhibitions(e.target.value)}></Form.Control>
         </Form.Group>
         {isLoading && <Loader />}
-        <Button type='submit' variant='success' className='mt-3'>Add Artist</Button>
+        <Button type='submit' variant='success' className='mt-3 btn-sm'>Add Artist</Button>
             </Form>
         </Modal.Body>
         <Modal.Footer>

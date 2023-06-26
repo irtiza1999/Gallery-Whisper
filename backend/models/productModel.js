@@ -53,6 +53,10 @@ const productSchema = mongoose.Schema({
         default: 0,
         required: true,
     },
+    isVerified : {
+        type: Boolean,
+        default: false,
+    },
 
 },{
     timestamps: true
