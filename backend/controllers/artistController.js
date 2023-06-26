@@ -27,7 +27,7 @@ const artistInfo = asyncHandler(async (req, res) => {
 });
 
 const createArtist = asyncHandler(async (req, res) => {
-  const { name, email, nationality, info, exhibitions, userId } = req.body;
+  const { name, email, nationality, info, exhibitions, userId,isVerified } = req.body;
   const artistExists = await Artist.findOne({ name });
   if (artistExists) {
     res.status(400);
@@ -40,6 +40,7 @@ const createArtist = asyncHandler(async (req, res) => {
     nationality: nationality || '',
     info,
     exhibitions: exhibitions || '',
+    isVerified: isVerified || false,
   });
   const updateUser = await User.findOne({
     _id: userId,
@@ -119,6 +120,19 @@ const updateArtist = asyncHandler(async (req, res) => {
   });
 });
 
+const updateVerificationStatus = asyncHandler(async (req, res) => {
+  const userId = req.body._id;
+  const artist = await Artist.findById(userId);
+  if (!artist) {
+    res.status(404);
+    throw new Error('Artist not found');
+  }
+  artist.isVerified = !artist.isVerified; // Toggle verification status
+
+  const updatedArtist = await artist.save(); // Corrected method name to "save()"
+
+  res.json(updatedArtist);
+});
 
 
 
@@ -127,5 +141,6 @@ export {
     createArtist,
     allArtistInfo,
     removeArtist,
-    updateArtist
+    updateArtist,
+    updateVerificationStatus
 };

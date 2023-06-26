@@ -42,7 +42,7 @@ const handleAddArtist = async (e) => {
         email:email,
         nationality: newNationality,
         info: newInfo,
-        isVerified: true,
+        isVerified: false,
         exhibitions: newExhibitions,
         userId: userInfo._id,
     };

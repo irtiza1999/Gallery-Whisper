@@ -39,6 +39,14 @@ export const artistApiSlice = apiSlice.injectEndpoints({
                 body: artist,
             }),
         }),
+
+        updateArtistVerificationStatus: builder.mutation({
+            query: (artist) => ({
+                url: `${ARTIST_URL}/verification`,
+                method: 'PUT',
+                body: artist,
+            }),
+        }),
 }),
 })
 
@@ -48,4 +56,5 @@ export const {
     useAddArtistMutation,
     useRemoveArtistMutation,
     useUpdateArtistMutation,
+    useUpdateArtistVerificationStatusMutation,
 } = artistApiSlice;

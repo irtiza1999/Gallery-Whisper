@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Typography, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
 import { useGetAllArtistQuery, useAddArtistMutation, useRemoveArtistMutation, 
-    useUpdateArtistMutation
+    useUpdateArtistMutation, useUpdateArtistVerificationStatusMutation
 } from '../../slices/artistApiSlice.js';
 import Loader from '../../components/Loader.jsx';
 import Message from '../../components/Message.jsx';
@@ -130,6 +130,19 @@ const submitHandler = async (e) => {
         toast.error(err?.data?.message || err?.error);
     }
 }
+  const [ updateArtistStatus, {updateStatusLoading, updateStatusError} ] = useUpdateArtistVerificationStatusMutation();
+const handleVerification = async (user) => {
+  try {
+    const res = await updateArtistStatus(user).unwrap();
+    if (res) {
+      toast.success('Artist Verification Status Updated Successfully');
+      refetch(); // Call refetch after successful update
+    }
+  } catch (err) {
+    toast.error(err?.data?.message || err?.error);
+  }
+};
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={2}>
@@ -169,6 +182,9 @@ const submitHandler = async (e) => {
                   <TableCell>
                     <b>Nationality</b>
                   </TableCell>
+                   <TableCell>
+                    <b>Verification Status</b>
+                  </TableCell>
                   <TableCell>
                     <b>Actions</b>
                   </TableCell>
@@ -191,8 +207,26 @@ const submitHandler = async (e) => {
                         {user.nationality}
                       </TableCell>
                       <TableCell>
+                        {user.isVerified
+                          ? 
+                          <>
+                            <Button variant="danger" onClick={() => handleVerification(user)}  
+                        style={{ width: '90px' }}>
+                          Mark As Not Verified
+                        </Button>
+                          </>
+                :           <>
+                        <Button variant="success" onClick={() => handleVerification(user)}  
+                              style={{ width: '90px' }}>
+                              Mark As Verified
+                        </Button>
+                          </>
+                        }
+                        
+                      </TableCell>
+                      <TableCell>
                         <Button variant="info" onClick={() => handleShow(user)}  
-                        style={{ width: '150px' }}>
+                        style={{ width: '90px' }}>
                           Update Artist
                         </Button>
                       </TableCell>
