@@ -16,12 +16,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 connectDB();
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoute);
 app.use('/api/orders', orderRoute);
 app.use('/api/reviews', reviewRoute);
 app.use('/api/artist', artistRoute);
+app.use('/uploads', express.static('uploads'));
 app.get('/api/config/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );

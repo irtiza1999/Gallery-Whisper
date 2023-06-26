@@ -13,7 +13,10 @@ import { toast } from 'react-toastify';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
+
+
 const AdminAllProductScreen = () => {
+    const imageBaseUrl = 'http://localhost:5000/uploads/';
     const { data, isLoading, refetch, error } = useGetAllProductQuery();
     const [show, setShow] = useState(false);
     const [productId, setProductId] = useState('');
@@ -65,20 +68,20 @@ const AdminAllProductScreen = () => {
     const submitHandler = (e) => {
         e.preventDefault();
         try{
-            const res = updateProduct({
-                productId,
-                name,
-                size,
-                description,
-                category,
-                artists,
-                styles,
-                subject,
-                medium,
-                price,
-                countInStock,
-                image
-            });
+          const formData = new FormData();
+            formData.append('productId', productId);
+            formData.append('name', name);
+            formData.append('size', size);
+            formData.append('description', description);
+            formData.append('category', category);
+            formData.append('artists', artists);
+            formData.append('styles', styles);
+            formData.append('subject', subject);
+            formData.append('medium', medium);
+            formData.append('price', price);
+            formData.append('countInStock', countInStock);
+            formData.append('image', image);
+            const res = updateProduct(formData);
             toast.success('Product updated successfully');
             handleClose();
             refetch();
@@ -149,7 +152,7 @@ const AdminAllProductScreen = () => {
                   <LinkContainer to={`/product/${data._id}`} style={{ cursor: 'pointer', color: 'blue' }}>
                     <TableCell><b>{data._id}</b></TableCell>
                   </LinkContainer>
-                  <TableCell><img src={data.image} style={{height:'40px', width:'30px'}}/></TableCell>
+                  <TableCell><img src={imageBaseUrl+data.image} style={{height:'40px', width:'30px'}}/></TableCell>
                   <TableCell>{data.name}</TableCell>
                 <TableCell>{data.category}</TableCell>
                 <TableCell>{data.artists}</TableCell>
@@ -241,9 +244,11 @@ const AdminAllProductScreen = () => {
         </Form.Group>
         <Form.Group className = 'my-2' controlId='image'>
             <Form.Label>Update Image</Form.Label>
-            <Form.Control type='text' placeholder='Enter Image' value={image}
-            onChange={(e) => setImage(e.target.value)}>
-            </Form.Control>
+            <Form.Control
+                type="file"
+                placeholder="Image"
+                onChange={(e) => setImage(e.target.files[0])}
+            />
         </Form.Group>
         {isLoading && <Loader />}
         <Button type='submit' variant='primary' className='mt-3'>Update Product</Button>

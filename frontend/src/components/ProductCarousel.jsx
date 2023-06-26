@@ -18,6 +18,7 @@ function ProductCarousel() {
   if (error) {
     return <Message variant='danger'>{error?.data?.message || error.error}</Message>;
   }
+  const imageBaseUrl = 'http://localhost:5000/uploads/';
 
   return (
     <Carousel fade interval={5000}>
@@ -51,7 +52,7 @@ function ProductCarousel() {
                 </div>
                 <img
                   className="d-block w-100"
-                  src={product.image}
+                  src={imageBaseUrl+product.image}
                   alt="Product"
                   style={{ maxHeight: 'calc(60vh - 120px)', objectFit: 'contain' }}
                 />

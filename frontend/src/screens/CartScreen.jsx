@@ -38,6 +38,8 @@ const CartScreen = () => {
     navigate('/shipping');
   };
 
+  const imageBaseUrl = 'http://localhost:5000/uploads/';
+
   
 
 
@@ -83,7 +85,7 @@ const CartScreen = () => {
             }}>
               <Row>
                 <Col md={2}>
-                  <Image src={item.image} alt={item.name} fluid rounded />
+                  <Image src={imageBaseUrl+item.image} alt={item.name} fluid rounded />
                 </Col>
                 <Col md={2}>
                   <h6 style={{textDecoration: 'none'}}><Link to={`/product/${item._id}`}>{item.name}</Link></h6>

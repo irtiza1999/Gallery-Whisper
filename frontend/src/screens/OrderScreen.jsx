@@ -44,6 +44,8 @@ const OrderScreen = () => {
     refetch();
   };
 
+  const imageBaseUrl = 'http://localhost:5000/uploads/';
+
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
       try {
@@ -171,7 +173,7 @@ const OrderScreen = () => {
                       <Row>
                         <Col md={1}>
                           <Image
-                            src={item.image}
+                            src={imageBaseUrl+item.image}
                             alt={item.name}
                             fluid
                             rounded

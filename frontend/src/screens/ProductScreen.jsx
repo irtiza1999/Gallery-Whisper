@@ -138,6 +138,7 @@ function calculateTimeAgo(createdAt) {
     return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
   }
 }
+const imageBaseUrl = 'http://localhost:5000/uploads/';
 
 // if(reviewData && reviewData.length > 0){
 //   setInterval(() => {
@@ -161,7 +162,7 @@ function calculateTimeAgo(createdAt) {
           <Grid container>
             <Grid item xs={12} sm={6}>
               <img
-                src={data.image}
+                src={imageBaseUrl+data.image}
                 alt="Product"
                 style={{ width: '100%', height: 'auto', maxWidth: '300px', maxHeight: '300px', objectFit: 'cover' }}
               />
@@ -424,7 +425,6 @@ function calculateTimeAgo(createdAt) {
         </Grid>
     </Grid>
   </Box>
-  <Footer />
   </div>
   );
 };

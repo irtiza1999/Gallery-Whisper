@@ -41,15 +41,41 @@ const AdminAddProductScreen = () => {
         setCountInStock('');
         setImage('');
   };
+
     const navigate = useNavigate();
     
     const [createProduct, { isLoading: isLoadingCreate, error: errorCreate }] = useCreateProductMutation();
 
+    // const fileToString = (file) => {
+    // console.log(file);
+    // const { name, lastModified, lastModifiedDate, size, type, webkitRelativePath} = file;
+    // const fileObject = {
+    //     name,
+    //     lastModified,
+    //     lastModifiedDate: lastModifiedDate.toString(),
+    //     size,
+    //     type,
+    //     webkitRelativePath,
+    // };
+    // return JSON.stringify(fileObject);
+    // };
+
     const submitHandler = async (e) => {
         e.preventDefault();
         try{
-            const res = await createProduct({name, size, description, category, 
-                artists, styles, subject, medium, price, countInStock, image}).unwrap();
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('size', size);
+            formData.append('description', description);
+            formData.append('category', category);
+            formData.append('artists', artists);
+            formData.append('styles', styles);
+            formData.append('subject', subject);
+            formData.append('medium', medium);
+            formData.append('price', price);
+            formData.append('countInStock', countInStock);
+            formData.append('image', image);
+            const res = await createProduct(formData).unwrap();
             if(res){
                 navigate("/admin/productslist");
                 toast.success('Product added successfully');
@@ -57,6 +83,7 @@ const AdminAddProductScreen = () => {
             }
         }catch(err){
             toast.error(err?.data?.message || err?.error);
+            console.log(err);
         }
     };
 
@@ -129,12 +156,15 @@ const AdminAddProductScreen = () => {
             onChange={(e) => setCountInStock(e.target.value)}>
             </Form.Control>
         </Form.Group>
-        <Form.Group className = 'my-2' controlId='image'>
+            <Form.Group className="my-2" controlId="image">
             <Form.Label>Image</Form.Label>
-            <Form.Control type='text' placeholder='Enter Image' value={image}
-            onChange={(e) => setImage(e.target.value)}>
-            </Form.Control>
-        </Form.Group>
+            <Form.Control
+                type="file"
+                placeholder="Image"
+                onChange={(e) => setImage(e.target.files[0])}
+            />
+            </Form.Group>
+
             <Button type='submit' variant='success' className='mt-3'>Confirm</Button>
         </Form>
         </Formcontainer>

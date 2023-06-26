@@ -5,6 +5,8 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "./components/footer";
 
+
+
 const App = () => {
   const location = useLocation();
   const isAdminPanel = location.pathname.startsWith("/admin"); // Replace with your admin panel path
