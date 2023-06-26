@@ -17,6 +17,9 @@ import Footer from '../components/Footer';
 import { useGetFavoriteQuery } from '../slices/userApiSlice';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from 'react-router-dom';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import GppMaybeIcon from '@mui/icons-material/GppMaybe';
+
  
 
 const ProductScreen = () => {
@@ -179,6 +182,17 @@ const imageBaseUrl = 'http://localhost:5000/uploads/';
                       <b>Out of Stock</b>
                     </Typography>
                   )}
+                  {data.verifiedProduct ? (
+                    <>
+                    <DoneAllIcon sx={{ fontSize: 14, color: 'green', fontWeight: 'bold' }} />
+                    <span style={{ marginLeft: 5, color: 'green', fontSize: 12 }}>Verified</span>
+                    </>
+                  ) : (
+                    <>
+                    <GppMaybeIcon sx={{ fontSize: 14, color: 'red', fontWeight: 'bold' }} />
+                    <span style={{ marginLeft: 5, color: 'red',fontSize: 12 }}>Not Verified</span>
+                    </>
+                  )}
                   <Typography>
                       <div style={{marginTop:'10px'}}>
                       <LinkContainer to={`/${data.category}`} style={{cursor: 'pointer', color:"blue"}}>
@@ -293,8 +307,7 @@ const imageBaseUrl = 'http://localhost:5000/uploads/';
                     )}
                     </Col>
                   </Grid>
-
-                  {data.countInStock > 0 && (
+                  {data.countInStock > 0 && data.isVerified && (
                     <Grid item style={{ marginLeft: '-10px' }}>
                       <Button onClick={() => addToCartHandler(data, quan)} style={{backgroundColor : '#4834d4', color:'white'}}>Add to Cart</Button>
                     </Grid>

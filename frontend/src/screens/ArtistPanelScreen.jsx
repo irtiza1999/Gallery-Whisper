@@ -130,17 +130,17 @@ const submitHandler = async (e) => {
                     <Table>
                       <TableHead>
                         <TableRow>
-                          <TableCell>Artwork</TableCell>
-                          <TableCell>Price</TableCell>
-                          <TableCell>Stock</TableCell>
-                          <TableCell>Actions</TableCell>
+                          <TableCell><b>Artwork Name</b></TableCell>
+                          <TableCell><b>Price</b></TableCell>
+                          <TableCell><b>Stock</b></TableCell>
+                          <TableCell><b>Actions</b></TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {artistInfo && artistInfo.artistProducts && artistInfo.artistProducts.map((product) => (
                           <TableRow key={product.product._id}>
                             <TableCell>{product.product.name}</TableCell>
-                            <TableCell>{product.product.price}</TableCell>
+                            <TableCell>${product.product.price}</TableCell>
                             <TableCell>{product.product.countInStock}</TableCell>
                             <TableCell>
                               {product.product.isVerified ? (

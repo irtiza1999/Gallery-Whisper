@@ -7,7 +7,7 @@ import Review from '../models/reviewModel.js';
 
 // get all product public
 const getProduct = asyncHandler(async (req, res) => {
-    const products = await Product.find();
+    const products = await Product.find().sort({ createdAt: -1 });
     res.status(200).json(products);
 });
 

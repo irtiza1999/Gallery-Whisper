@@ -216,7 +216,7 @@ const AllUserScreen = () => {
             <Form.Control type='password' placeholder='Confirm Updated Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
         </Form.Group>
         {isLoading && <Loader />}
-        <Button className="btn-sm" type='submit' variant='primary' className='mt-3'>Update Profile</Button>
+        <Button type='submit' variant='primary' className='mt-3 btn-sm'>Update Profile</Button>
             </Form>
         </Modal.Body>
         <Modal.Footer>

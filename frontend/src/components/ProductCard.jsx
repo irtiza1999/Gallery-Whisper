@@ -16,6 +16,9 @@ import { useDispatch } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import { Grid } from '@mui/material';
 import Rating from '@mui/material/Rating';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import GppMaybeIcon from '@mui/icons-material/GppMaybe';
+
 
 const AnimatedCard = animated(Card);
 
@@ -69,6 +72,7 @@ const ProductCard = ({ product }) => {
     refetch();
   }, []);
 
+
   useEffect(() => {
     if(!userInfo) return setIsFavorite(false);
     if (favProducts) {
@@ -80,6 +84,15 @@ const ProductCard = ({ product }) => {
       }
     }
   }, [favProducts, userInfo]);
+
+
+  const [verifiedProduct,setVerifiedProduct] = useState(false);
+  useEffect(() => {
+    if(product.isVerified){
+      setVerifiedProduct(true);
+    }
+  }, [product]);
+  
 
   return (
     <div style={{ padding: '10px' }}>
@@ -100,6 +113,21 @@ const ProductCard = ({ product }) => {
               <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
                     {product.name}
+                </Typography>
+                      <Typography gutterBottom variant="h8" component="div" 
+                      // style={{ display: 'flex', alignItems: 'center' }}
+                      >
+                  {verifiedProduct ? (
+                    <>
+                    <DoneAllIcon sx={{ fontSize: 14, color: 'green', fontWeight: 'bold' }} />
+                    <span style={{ marginLeft: 5, color: 'green' }}>Verified</span>
+                    </>
+                  ) : (
+                    <>
+                    <GppMaybeIcon sx={{ fontSize: 14, color: 'red', fontWeight: 'bold' }} />
+                    <span style={{ marginLeft: 5, color: 'red' }}>Not Verified</span>
+                    </>
+                  )}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {product.countInStock > 0 ? (
@@ -122,23 +150,28 @@ const ProductCard = ({ product }) => {
             </CardActionArea>
           </LinkContainer>
           <CardActions style={{ justifyContent: 'space-between' }}>
-            <LinkContainer to="/cart">
-              {product.countInStock > 0 ? (
-                !inCart ? (
-                  <CartButton product={product} size="small" color="primary">
-                    Add to Cart
-                  </CartButton>
-                ) : (
-                  <Button disabled variant="success" size="small" className="cart-button">
-                    Already in Cart
-                  </Button>
-                )
-              ) : (
-                <Button disabled variant="danger" size="small" className="cart-button">
-                  Out of Stock
-                </Button>
-              )}
-            </LinkContainer>
+            {product.countInStock > 0 && verifiedProduct && !inCart? (
+              <LinkContainer to="/cart">
+                <CartButton product={product} size="small" color="primary">
+                  Add to Cart
+                </CartButton>
+              </LinkContainer>
+            ) : (
+              <Button
+                variant="danger"
+                className="btn-sm"
+                style={{
+                  height: '50px',
+                  width: '90px',
+                  borderRadius: '10px',
+                  marginLeft: '5px'
+                }}
+                disabled
+              >
+                Add to Cart
+              </Button>
+            )}
+
             {!isLoading && !FavIsLoading && (
               <Tooltip title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}>
                 <IconButton onClick={handleFavoriteClick}>
