@@ -10,6 +10,7 @@ const artistInfo = asyncHandler(async (req, res) => {
   if (!artist) {
     res.json({artist: null});
   } else {
+    // const updateResult = await updateArtist(req, res);
     const artistProducts = await Product.find({ artists: artist.name });
 
     if (!Array.isArray(artistProducts)) {
@@ -94,19 +95,28 @@ const removeArtist = asyncHandler(async (req, res) => {
 
 
 const updateArtist = asyncHandler(async (req, res) => {
-  console.log(req.body)
   const userId = req.body._id;
   const artist = await Artist.findById(userId);
   if (!artist) {
     res.status(404);
     throw new Error('Artist not found');
   }
+
+  const verifiedArtCount = await Artist.countDocuments({isVerified: true});
+  if(verifiedArtCount < 3){
+    artist.commission = 0.1;
+  }else if(verifiedArtCount < 6){
+    artist.commission = 0.15;
+  }else if(verifiedArtCount < 9){
+    artist.commission = 0.2;
+  }else if(verifiedArtCount > 9){
+    artist.commission = 0.25;
+  }
   artist.name = req.body.name || artist.name;
   artist.email = req.body.email || artist.email;
   artist.nationality = req.body.nationality || artist.nationality;
   artist.info = req.body.info || artist.info;
   artist.exhibitions = req.body.exhibitions || artist.exhibitions;
-  artist.commission = req.body.commission || artist.commission;
 
   const updatedArtist = await artist.save();
 

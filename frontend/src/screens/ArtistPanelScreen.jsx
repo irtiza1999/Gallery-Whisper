@@ -34,7 +34,7 @@ const ArtistPanelScreen = () => {
   }, [userInfo, navigate]);
 
   const { data: artistInfo, refetch, isLoading, error } = useGetArtistByNameQuery(userInfo.name);
-  const [ updateArtist, {updateLoading, updateError} ] = useUpdateArtistMutation();
+  const [ updateArtist, { updateLoading , updateError} ] = useUpdateArtistMutation();
 
     const handleClose = () => {
     setShow(false);
@@ -45,6 +45,11 @@ const ArtistPanelScreen = () => {
     setInfo('');
     setExhibitions('');
   };
+
+  useEffect(() => {
+    
+  }, []);
+
 
     const handleShow = (user) => {
     setShow(true);
@@ -70,6 +75,7 @@ const submitHandler = async (e) => {
         const res = await updateArtist( artist ).unwrap();
         toast.success('Artist Updated Successfully');
         refetch();
+        // refetchUpdate();
         handleClose();
         }
     catch (err) {
@@ -94,6 +100,7 @@ const submitHandler = async (e) => {
                 <div style={{ margin: '10px' }}>
                   <h6>Name: {artistInfo.artist.name}</h6>
                   <h6>Email: {artistInfo.artist.email}</h6>
+                  <h6>Commission: {artistInfo.artist.commission * 100}%</h6>
                   <h6>Information: {artistInfo.artist.info}</h6>
                   {artistInfo.artist.exhibitions && (<h6>Exhibitions: {artistInfo.artist.exhibitions}</h6>)}
                   <Button variant="info" onClick={() => handleShow(artistInfo.artist)}  
