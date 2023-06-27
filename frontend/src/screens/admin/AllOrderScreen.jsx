@@ -64,6 +64,8 @@ const AllOrderScreen = () => {
                 <MenuItem value={'notPaid'}>Not Paid</MenuItem>
                 <MenuItem value={'delivered'}>Delivered</MenuItem>
                 <MenuItem value={'notDelivered'}>Not Delivered</MenuItem>
+                <MenuItem value={'cancelled'}>Cancelled</MenuItem>
+                <MenuItem value = {'notCancelled'}>Not Cancelled</MenuItem>
               </Select>
             </FormControl>
           </Col>

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import { useNavigate } from 'react-router-dom';
 import {
   useGetOrderByIdQuery,
   useGetPaypalClientIdQuery,
@@ -81,6 +82,7 @@ const OrderScreen = () => {
   }
   const [reOrder, { ReorderIsLoading, ReorderError }] = useCreateOrderMutation();
   const [cancelOrder, { cancelOrderIsLoading, cancelOrderError }] = useCancelOrderMutation();
+  const navigate = useNavigate();
   const reOrderHandler = async (order) => {
     try {
       const res = await reOrder({
@@ -93,6 +95,7 @@ const OrderScreen = () => {
         totalPrice: order.totalPrice,
       }).unwrap();
       toast.success('Reorder Successful!!');
+      navigate(`/order/${res._id}`);
       refetch();
     } catch (err) {
       toast.error(err.message);
@@ -247,8 +250,7 @@ const OrderScreen = () => {
                 </ListGroup.Item>
               )}
               {userInfo && order &&
-                order.isPaid &&
-                order.isDelivered &&(
+                order.isPaid  &&(
                   <ListGroup.Item>
                   <Button variant="success" onClick={() => reOrderHandler(order)} style={{marginTop:'10px'}}>
                         Reorder

@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
+import User from '../models/userModel.js';
 
 const addOrderItems = asyncHandler(async (req, res) => {
     const {
@@ -31,6 +32,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
           product: x._id,
           _id: undefined,
         })),
+
         user: req.user._id,
         shippingAddress,
         paymentMethod,
@@ -39,7 +41,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
         shippingPrice,
         totalPrice,
       });
-  
       const createdOrder = await order.save();
   
       res.status(201).json(createdOrder);
@@ -82,6 +83,13 @@ const addOrderItems = asyncHandler(async (req, res) => {
         email_address: req.body.payer.email_address,
       };
       const updateOrder = await order.save();
+
+      const pointsAchieved = order.totalPrice/100;
+      const pointUser = await User.findOne({_id: order.user._id});
+      console.log(pointUser);
+      pointUser.points += pointsAchieved;
+      await pointUser.save();
+
       res.json(updateOrder);
     }else{
       res.status(404);
@@ -189,6 +197,56 @@ const filterOrder = asyncHandler(async (req, res) => {
   }
 });  
 
+  const myFilterOrders = asyncHandler(async (req, res) => {
+  const filter = req.params.filter;
+  if(filter === 'paid'){
+    const orders = await Order.find({ user: req.params.userId ,isPaid: true }).populate(
+      'user',
+      'name email'
+    )
+    .sort({ createdAt: -1 })
+    .exec();
+    res.status(200).json(orders);
+  }else if(filter === 'notPaid'){
+    const orders = await Order.find({ user: req.params.userId ,isPaid: false }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
+    res.status(200).json(orders);
+  }else if(filter === 'delivered'){
+    const orders = await Order.find({ user: req.params.userId ,isDelivered: true }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
+    res.status(200).json(orders);
+  }else if(filter === 'notDelivered'){
+    const orders = await Order.find({ user: req.params.userId ,isDelivered: false }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
+    res.status(200).json(orders);
+  }else if(filter === 'cancelled'){
+    const orders = await Order.find({ user: req.params.userId ,isCancelled: true }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
+    res.status(200).json(orders);
+  }else if(filter === 'notCancelled'){
+    const orders = await Order.find({ user: req.params.userId ,isCancelled: false }).populate(
+      'user',
+      'name email'
+    ).sort({ createdAt: -1 })
+    .exec();
+    res.status(200).json(orders);
+  }else{
+    res.status(404);
+    throw new Error('Invalid filter');
+  }
+});
   export {
     addOrderItems,
     getOrderById,
@@ -197,5 +255,6 @@ const filterOrder = asyncHandler(async (req, res) => {
     getAllOrders,
     myOrders,
     updateOrderToCancel,
-    filterOrder
+    filterOrder,
+    myFilterOrders
   };

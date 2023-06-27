@@ -1,6 +1,7 @@
 import express from 'express';
 import {addOrderItems, getOrderById, updateOrderToPaid, updateOrderToDelivered, 
-    getAllOrders, myOrders, updateOrderToCancel,filterOrder} from '../controllers/orderController.js';
+    getAllOrders, myOrders, updateOrderToCancel,filterOrder, 
+    myFilterOrders} from '../controllers/orderController.js';
 import {protect, admin} from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -11,6 +12,7 @@ router.get('/:orderId', getOrderById);
 router.put('/:orderId/pay', updateOrderToPaid);
 router.put('/:orderId/deliver',protect, updateOrderToDelivered);
 router.get('/myorders/:userId',protect, myOrders);
+router.get('/myorders/:userId/filter/:filter',protect, myFilterOrders);
 router.put('/cancel',protect, updateOrderToCancel);
 router.get('/filter/:filter',protect, filterOrder);
 export default router;

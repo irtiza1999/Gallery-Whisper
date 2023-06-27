@@ -37,6 +37,7 @@ import FilterOrderScreen from './screens/admin/FilterOrderScreen.jsx'
 import ArtistJoinScreen from './screens/ArtistJoinScreen.jsx'
 import ArtistPanelScreen from './screens/ArtistPanelScreen.jsx'
 import ArtistAddProductScreen from './screens/ArtistAddProductScreen.jsx'
+import MyFilterOrderScreen from './screens/MyFilterOrderScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -57,6 +58,7 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute/>}> <Route path='/placeorder' element={<PlaceOrderScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/order/:id' element={<OrderScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/myorder/:userId' element={<MyOrderScreen />} /> </Route>
+      <Route path='' element={<PrivateRoute/>}> <Route path='/myorder/:userId/filter/:filter' element={<MyFilterOrderScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}><Route path='/artist/join' element={<ArtistJoinScreen />} /></Route>
       <Route path='' element={<PrivateRoute/>}><Route path='/artist/panel' element={<ArtistPanelScreen />} /></Route>
       <Route path='' element={<PrivateRoute/>}><Route path='/artist/addproduct' element={<ArtistAddProductScreen />} /></Route>

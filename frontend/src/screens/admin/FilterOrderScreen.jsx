@@ -48,7 +48,7 @@ const FilterOrderScreen = () => {
       <Grid item xs={10}>
          <Grid container alignItems="center" justifyContent="space-between">
             <Grid item>
-                <Typography variant="h3" style={{ margin : '10px'}}>Filtered Orders</Typography>
+                <Typography variant="h4" style={{ margin : '10px'}}>Filtered Orders</Typography>
             </Grid>
         <Grid item>   
         <Row style={{ alignItems: 'center' }}>
@@ -68,6 +68,8 @@ const FilterOrderScreen = () => {
                 <MenuItem value={'notPaid'}>Not Paid</MenuItem>
                 <MenuItem value={'delivered'}>Delivered</MenuItem>
                 <MenuItem value={'notDelivered'}>Not Delivered</MenuItem>
+                <MenuItem value={'cancelled'}>Cancelled</MenuItem>
+                <MenuItem value = {'notCancelled'}>Not Cancelled</MenuItem>
               </Select>
             </FormControl>
           </Col>
