@@ -338,11 +338,16 @@ const Header = () => {
                 </Box>
               </>
             ) : (
-              <LinkContainer to="/login">
-                <Button variant="outlined" color="info">
-                  Login
-                </Button>
-              </LinkContainer>
+               <>
+                <LinkContainer to="/register" className="mx-2">
+                  <Button variant="contained">Register</Button>
+                </LinkContainer>
+                <LinkContainer to="/login">
+                  <Button variant="contained" color="success">
+                    Login
+                  </Button>
+                </LinkContainer>
+              </>
             )}
           </Toolbar>
         </Container>
