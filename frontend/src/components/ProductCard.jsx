@@ -39,13 +39,10 @@ const ProductCard = ({ product }) => {
   });
 
   const [isFavorite, setIsFavorite] = useState(false);
+    const [addToFav, { isLoading }] = useAddFavoriteMutation();
+    const { data: favProducts, FavIsLoading, refetch, error } = useGetFavoriteQuery();
 
-  const [addToFav, { isLoading }] = useAddFavoriteMutation();
-  const dispatch = useDispatch();
-
-  const { data: favProducts, FavIsLoading, refetch, error } = useGetFavoriteQuery();
-
-  const handleFavoriteClick = async () => {
+const handleFavoriteClick = async () => {
     if (!userInfo) {
       toast.error('Please login to add to favorites');
       return;

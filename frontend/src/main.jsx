@@ -38,6 +38,7 @@ import ArtistJoinScreen from './screens/ArtistJoinScreen.jsx'
 import ArtistPanelScreen from './screens/ArtistPanelScreen.jsx'
 import ArtistAddProductScreen from './screens/ArtistAddProductScreen.jsx'
 import MyFilterOrderScreen from './screens/MyFilterOrderScreen.jsx'
+import MembershipScreen from './screens/MembershipScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,6 +52,7 @@ const router = createBrowserRouter(
       <Route path='/search/:keyWord' element={<SearchScreen />} />
       <Route path='/filter/:filter' element={<FilterScreen />} />
       <Route path='/artist/:name' element={<ArtistScreen />} />
+      <Route path='/membership' element={<MembershipScreen />} />
       <Route path='' element={<PrivateRoute/>}> <Route path='/profile' element={<ProfileScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/favorites/:id' element={<FavoritesScreen />} /> </Route>
       <Route path='' element={<PrivateRoute/>}> <Route path='/shipping' element={<ShippingScreen />} /> </Route>

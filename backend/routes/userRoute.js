@@ -14,13 +14,13 @@ router.post('/auth', authUser);
 router.post('/logout', logout);
 router.get('/profile', protect,getUserProfile);
 router.put('/profile', protect, updateUserProfile);
-router.put('/favorite', protect, addToFavorite)
-router.get('/favorite', protect, getFavoriteProducts)
-router.get('/admin/users', protect, getAllUsers)
-router.put('/admin/makeadmin', protect, makeAdmin)
-router.put('/admin/removeadmin', protect, removeFromAdmin)
-router.delete('/admin/removeuser', protect, removeUser)
-router.post('/googlelogin', googleAuthUser)
-router.post('/googleregister', googleRegisterUser)
+router.get('/admin/users', protect, getAllUsers);
+router.put('/admin/makeadmin', protect, makeAdmin);
+router.put('/admin/removeadmin', protect, removeFromAdmin);
+router.delete('/admin/removeuser', protect, removeUser);
+router.post('/googlelogin', googleAuthUser);
+router.post('/googleregister', googleRegisterUser);
+router.put('/my/favorite', protect, addToFavorite);
+router.get('/favorite', protect, getFavoriteProducts);
 
 export default router;

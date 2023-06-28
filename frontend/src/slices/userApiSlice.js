@@ -34,7 +34,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 
         addFavorite: builder.mutation({
             query: (data) => ({
-                url: `${USERS_URL}/favorite`,
+                url: `${USERS_URL}/my/favorite`,
                 method: 'PUT',
                 body: data,
             }),

@@ -35,6 +35,11 @@ const userSchema = mongoose.Schema({
     points : {
         type: Number,
         default: 0
+    },
+    membership : {
+        type: {type: String, required: true},
+        expires: { type: Date, required: true },
+        discount : {type: Number, default: 0, required: true}
     }
 },{
     timestamps: true
