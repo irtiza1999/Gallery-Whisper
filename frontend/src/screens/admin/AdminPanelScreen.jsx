@@ -15,6 +15,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import HomeIcon from '@mui/icons-material/Home';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 const drawerWidth = 240;
 
@@ -103,6 +104,16 @@ export default function ClippedDrawer() {
                         <ReviewsIcon />
                     </ListItemIcon>
                         <ListItemText primary={'Manage Reviews'} />
+                    </ListItemButton>
+                </ListItem>
+            </LinkContainer>
+            <LinkContainer to='/admin/sales'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <MonetizationOnIcon />
+                    </ListItemIcon>
+                        <ListItemText primary={'Sales and Analytics'} />
                     </ListItemButton>
                 </ListItem>
             </LinkContainer>

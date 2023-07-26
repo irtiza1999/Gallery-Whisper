@@ -14,6 +14,7 @@ const PlaceOrderScreen = () => {
   const imageBaseUrl = 'http://localhost:5000/uploads/';
 
   const cart = useSelector((state) => state.cart);
+  const {userInfo} = useSelector(state => state.auth);
 
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
@@ -131,7 +132,7 @@ const PlaceOrderScreen = () => {
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
-                {error && <Message variant='danger'>{error}</Message>}
+                {error && <Message>{error}</Message>}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button

@@ -38,6 +38,7 @@ import ArtistJoinScreen from './screens/ArtistJoinScreen.jsx'
 import ArtistPanelScreen from './screens/ArtistPanelScreen.jsx'
 import ArtistAddProductScreen from './screens/ArtistAddProductScreen.jsx'
 import MyFilterOrderScreen from './screens/MyFilterOrderScreen.jsx'
+import SalesScreen from './screens/admin/SalesScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -70,6 +71,7 @@ const router = createBrowserRouter(
       <Route path='' element={<AdminRoute/>}> <Route path='/admin/addproduct' element={<AdminAddProductScreen />} /> </Route>
       <Route path='' element={<AdminRoute/>}> <Route path='/admin/reviewslist' element={<AllReviewScreen />} /> </Route>
       <Route path='' element={<AdminRoute/>}> <Route path='/admin/orders/filter/:filter' element={<FilterOrderScreen />} /> </Route>
+      <Route path='' element={<AdminRoute/>}> <Route path='/admin/sales' element={<SalesScreen />} /> </Route>
       <Route path='*' element={<NotFoundScreen />} />
     </Route>
   ))
