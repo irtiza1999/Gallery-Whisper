@@ -9,6 +9,7 @@ import productRoute from './routes/productRoute.js';
 import orderRoute from './routes/orderRoute.js';
 import reviewRoute from './routes/reviewRoute.js';
 import artistRoute from './routes/artistRoute.js';
+import path from 'path';
 
 const port = process.env.PORT || 5000;
 
@@ -27,7 +28,13 @@ app.use('/uploads', express.static('uploads'));
 app.get('/api/config/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
-app.get('/', (req, res) => { res.send('API is running...'); });
+if (process.env.NODE_ENV === 'production') {
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname,'frontend/dist')));
+  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname,'frontend','dist','index.html')));
+}else{
+  app.get('/', (req, res) => { res.send('API is running...'); });
+}
 
 app.use(notFound);
 app.use(errorHandler);

@@ -16,7 +16,7 @@ function ProductCarousel() {
   }
 
   if (error) {
-    return <Message variant='danger'>{error?.data?.message || error.error}</Message>;
+    return <Message variant='error'>{error?.data?.message || error.error}</Message>;
   }
   const imageBaseUrl = 'http://localhost:5000/uploads/';
 
