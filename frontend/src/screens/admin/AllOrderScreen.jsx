@@ -97,7 +97,15 @@ const AllOrderScreen = () => {
                   <LinkContainer to={`/order/${order._id}`} style={{ cursor: 'pointer', color: 'blue' }}>
                     <TableCell><b>{order._id}</b></TableCell>
                   </LinkContainer>
-                  <TableCell>{order.user.name}</TableCell>
+                  {order.user ? (
+                  <TableCell>
+                      <span>{order.user.name || 'Deleted User'}</span>
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    <span>Deleted User</span>
+                  </TableCell>
+                )}
                   <TableCell>${order.totalPrice}</TableCell>
                   {order.isPaid ? (
                     <TableCell>

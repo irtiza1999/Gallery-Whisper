@@ -79,7 +79,7 @@ const handleAddArtist = async (e) => {
           <h1 style={{ paddingTop: '100px' }}>Join as Artist</h1>
           <Form onSubmit={handleAddArtist}>
             <Form.Group className='my-2' controlId='name'>
-              <Form.Label>Email Address</Form.Label>
+              <Form.Label>User Name</Form.Label>
               <Form.Control type="email" placeholder="Enter Name" value={userInfo ? userInfo.name : ''} 
                disabled />
             </Form.Group>

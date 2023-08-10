@@ -55,12 +55,12 @@ const createProduct = asyncHandler(async (req, res) => {
     }
     else{
         const imageName = (req.file) ? req.file.filename : null;
-        const category = category.toUpperCase();
+        // const category = category.toUpperCase();
         const newProduct = await Product.create({
             name,
             size,
             description,
-            category,
+            category: category.toUpperCase(),
             artists,
             style,
             subject,

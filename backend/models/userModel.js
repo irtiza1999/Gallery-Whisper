@@ -37,9 +37,9 @@ const userSchema = mongoose.Schema({
         default: 0
     },
     membership : {
-        type: {type: String, required: true},
-        expires: { type: Date, required: true },
-        discount : {type: Number, default: 0, required: true}
+        type: {type: String},
+        expires: { type: Date},
+        discount : {type: Number, default: 0}
     }
 },{
     timestamps: true

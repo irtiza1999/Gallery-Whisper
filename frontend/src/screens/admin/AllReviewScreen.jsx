@@ -65,7 +65,16 @@ const handleDeleteReview = async (reviewId) => {
               {reviews.map((review) => (
                 <TableRow key={review._id}>
                   <TableCell>{review._id}</TableCell>
-                  <TableCell>{review.user.name}</TableCell>
+                  {/* <TableCell>{review.user.name}</TableCell> */}
+                  {review.user ? (
+                  <TableCell>
+                      <span>{review.user.name || 'Deleted User'}</span>
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    <span>Deleted User</span>
+                  </TableCell>
+                )}
                 <TableCell>
                 <Link to={`/product/${review.product._id}`}>
                     <span>{review.product.name}</span>
