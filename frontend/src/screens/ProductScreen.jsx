@@ -63,7 +63,7 @@ const ProductScreen = () => {
   const { data: favProducts, FavIsLoading, refetch, favError } = useGetFavoriteQuery();
 
   useEffect(() => {
-    if (userInfo && reviewData && reviewData.some((review) => review.user._id === userInfo._id)) {
+    if (userInfo && reviewData &&  reviewData.user && reviewData.some((review) => review.user._id === userInfo._id)) {
       setHasReviewed(true);
     }
   }, [userInfo, reviewData]);
@@ -356,7 +356,17 @@ const imageBaseUrl = 'http://localhost:5000/uploads/';
                   <Typography variant="body1">By: </Typography>
                 </Col>
                 <Col>
-                  <Typography variant="body1">{review.user.name.toUpperCase()}</Typography>
+                  
+                  {/* <Typography variant="body1">{review.user.name.toUpperCase()}</Typography> */}
+                  {review.user ? (
+                  <Typography>
+                      <span>{review.user.name || 'Deleted User'}</span>
+                  </Typography>
+                ) : (
+                  <Typography>
+                    <span>Deleted User</span>
+                  </Typography>
+                )}
                 </Col>
               </Row>
             <Row>
