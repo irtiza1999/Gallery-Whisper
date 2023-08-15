@@ -130,7 +130,7 @@ const addToFavorite = asyncHandler(async (req, res) => {
 
 
 
-  const getFavoriteProducts = asyncHandler(async (req, res) => {
+const getFavoriteProducts = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const user = await User.findById(userId).populate('favoriteProducts');
   if (!user) {

@@ -70,7 +70,7 @@ const ArtistScreen = () => {
                         Artworks by {artistInfo.artist.name}
                       </h3>
                       {artistInfo.artistProducts && artistInfo.artistProducts.map((newProduct) => (
-                        <Grid key={newProduct.product._id} md={4}>
+                        <Grid key={newProduct.product._id} item xs={12} sm={6} md={4} lg={3}>
                           <ProductCard product={newProduct.product} />
                         </Grid>
                       ))}

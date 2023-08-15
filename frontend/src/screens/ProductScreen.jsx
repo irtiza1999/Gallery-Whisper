@@ -63,12 +63,16 @@ const ProductScreen = () => {
   const { data: favProducts, FavIsLoading, refetch, favError } = useGetFavoriteQuery();
 
   useEffect(() => {
-    if (userInfo && reviewData &&  reviewData.user && reviewData.some((review) => review.user._id === userInfo._id)) {
-      setHasReviewed(true);
-    }
+if (
+  userInfo &&
+  reviewData &&
+  reviewData.some((review) => review.user && review.user._id === userInfo._id)
+) {
+  setHasReviewed(true);
+}
+
   }, [userInfo, reviewData]);
   
-
   useEffect(() => {
     if (favProducts && userInfo && !FavIsLoading && !favError) {
       const index = favProducts && data ? favProducts.findIndex((item) => item._id === data._id) : -1;
