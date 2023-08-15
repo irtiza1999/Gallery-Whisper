@@ -16,12 +16,11 @@ const AllUserScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [userId, setUserId] = useState('');
+    const [updateUserId, setUserId] = useState('');
   const { userInfo } = useSelector((state) => state.auth);
   const { data: users, refetch, isLoading, error } = useGetAllUsersQuery();
   const [makeAdmin, adminIsLoading] = useMakeAdminMutation();
   const [removeAdmin, removeAdminLoading] = useRemoveAdminMutation();
-  const [updateUser, updateUserLoading] = useUpdateUserMutation();
   const [updateProfile, {profileIsLoading}] = useUpdateUserMutation();
   const [removeUser, removeUserLoading] = useRemoveUserMutation();
 
@@ -33,6 +32,7 @@ const AllUserScreen = () => {
     setName('');
     setEmail('');
     setPassword('');
+    setConfirmPassword('');
   };
 
   const handleShow = (user) => {
@@ -46,12 +46,12 @@ const AllUserScreen = () => {
     refetch();
   }, []);
 
-  const handleMakeAdmin = async (userId, name) => {
-    if (userInfo._id === userId) {
+  const handleMakeAdmin = async (updateUserId, name) => {
+    if (userInfo._id === updateUserId) {
       toast.error('You cannot make yourself admin');
       return;
     }
-    const res = await makeAdmin({ userId });
+    const res = await makeAdmin({ updateUserId });
     if (res.error) toast.error(res.error.message);
     else {
       refetch();
@@ -59,12 +59,12 @@ const AllUserScreen = () => {
     }
   };
 
-  const handleRemoveFromAdmin = async (userId, name) => {
-    if (userInfo._id === userId) {
+  const handleRemoveFromAdmin = async (updateUserId, name) => {
+    if (userInfo._id === updateUserId) {
         toast.error('You cannot remove yourself from admin');
         return;
       }
-    const res = await removeAdmin({ userId });
+    const res = await removeAdmin({ updateUserId });
     if (res.error) toast.error(res.error.message);
     else {
       refetch();
@@ -73,12 +73,12 @@ const AllUserScreen = () => {
   };
 
   const handleRemoveUser = async () => {
-    if (userInfo._id === userId) {
+    if (userInfo._id === updateUserId) {
       toast.error('You cannot remove yourself');
       return;
     }
     try {
-      const res = await removeUser({ userId });
+      const res = await removeUser({ updateUserId });
       if (res.error) {
         toast.error(res.error.message);
       } else {
@@ -90,9 +90,13 @@ const AllUserScreen = () => {
       toast.error(error?.data?.message || error?.error);
     }
   };
-  
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    if(userInfo._id === updateUserId) {
+        toast.error('You cannot update yourself');
+        return;
+    }
     if (password != confirmPassword){
         toast.error('Passwords do not match');
     }
@@ -101,8 +105,9 @@ const AllUserScreen = () => {
         toast.error('Please enter your password');
     }else{
         try{
+            
             const res = await updateProfile({
-              _id: userId,
+              _id: updateUserId,
               name,
               email,
               password
