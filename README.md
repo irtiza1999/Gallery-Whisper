@@ -8,7 +8,6 @@ Gallery-Whisper is a comprehensive e-commerce platform tailored for art enthusia
 
 ##### **This project was a part of my undergraduate course CSE470 (Software Engineering)**
 ---
----
 
 ## **Language & technologies used**
 * JavaScript
